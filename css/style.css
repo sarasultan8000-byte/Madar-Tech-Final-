@@ -1,0 +1,337 @@
+/* الألوان الأساسية */
+:root {
+    --navy: #0B2540;
+    --lime: #D7E64B;
+    --white: #FFFFFF;
+    --gray: #F3F5F6;
+    --text: #333333;
+}
+
+/* تنسيق عام */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Tahoma, Arial, sans-serif;
+    direction: rtl;
+    color: var(--text);
+    line-height: 1.8;
+}
+
+section {
+    padding: 65px 0;
+}
+
+h2 {
+    color: var(--navy);
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* شريط التنقل */
+.navbar {
+    background-color: var(--navy);
+    padding: 12px 0;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo img {
+    width: 75px;
+    height: 65px;
+    object-fit: contain;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    list-style: none;
+    margin: 0;
+}
+
+.nav-links a {
+    color: var(--white);
+}
+
+.nav-links a:hover {
+    color: var(--lime);
+}
+
+.nav-button {
+    background-color: var(--lime);
+    color: var(--navy) !important;
+    padding: 8px 18px;
+    border-radius: 20px;
+}
+
+.menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 27px;
+    cursor: pointer;
+}
+
+/* الواجهة الرئيسية */
+.hero {
+    background-color: var(--navy);
+    color: var(--white);
+    text-align: center;
+    padding: 120px 15px;
+}
+
+.hero h1 {
+    font-size: 38px;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    max-width: 750px;
+    margin: 0 auto 30px;
+    color: #E4E9EF;
+}
+
+.main-button,
+.second-button {
+    display: inline-block;
+    padding: 10px 25px;
+    margin: 7px;
+    border-radius: 25px;
+    font-weight: bold;
+}
+
+.main-button {
+    background-color: var(--lime);
+    color: var(--navy);
+}
+
+.second-button {
+    border: 2px solid white;
+    color: white;
+}
+
+/* من نحن */
+.about {
+    background-color: var(--white);
+}
+
+.about h3 {
+    color: var(--navy);
+    margin: 15px 0;
+}
+
+.section-image {
+    width: 100%;
+    max-height: 350px;
+    object-fit: contain;
+    border-radius: 12px;
+    margin: 25px 0;
+}
+
+/* مساحات الشباب والبنات */
+.spaces {
+    background-color: var(--gray);
+    text-align: center;
+}
+
+.space-card {
+    background-color: white;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 12px;
+}
+
+.space-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.space-card h3 {
+    color: var(--navy);
+    margin: 15px 0;
+}
+
+/* الخدمات */
+.services {
+    background-color: white;
+}
+
+.service-card,
+.program-card {
+    background-color: var(--gray);
+    padding: 25px 15px;
+    margin: 12px 0;
+    border-radius: 12px;
+    height: calc(100% - 24px);
+    text-align: center;
+    border-bottom: 4px solid var(--lime);
+}
+
+.service-card h3,
+.program-card h3 {
+    color: var(--navy);
+    font-size: 20px;
+    margin-bottom: 12px;
+}
+
+/* البرامج التدريبية */
+.programs {
+    background-color: var(--gray);
+}
+
+.program-card {
+    background-color: white;
+}
+
+.program-card a {
+    color: var(--navy);
+    font-weight: bold;
+}
+
+/* لماذا مدار تك */
+.why-madar {
+    background-color: var(--navy);
+    color: white;
+}
+
+.why-madar h2 {
+    color: var(--lime);
+}
+
+.why-madar .col-md-4 {
+    background-color: #153957;
+    color: white;
+    text-align: center;
+    padding: 18px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+}
+
+/* التواصل */
+.contact {
+    background-color: var(--gray);
+}
+
+.contact form {
+    background-color: white;
+    max-width: 650px;
+    margin: 25px auto;
+    padding: 25px;
+    border-radius: 12px;
+}
+
+.contact label {
+    display: block;
+    color: var(--navy);
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.contact input,
+.contact textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    font-family: inherit;
+}
+
+.contact textarea {
+    height: 120px;
+}
+
+.contact button {
+    background-color: var(--lime);
+    color: var(--navy);
+    border: none;
+    padding: 12px 25px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* نهاية الصفحة */
+footer {
+    background-color: var(--navy);
+    color: white;
+    text-align: center;
+    padding: 35px 15px;
+}
+
+footer img {
+    width: 85px;
+    height: 70px;
+    object-fit: contain;
+    margin: 0 auto 15px;
+}
+
+footer h3 {
+    color: var(--lime);
+    margin: 20px 0 10px;
+}
+
+footer a {
+    color: white;
+    margin: 5px;
+}
+
+footer a:hover {
+    color: var(--lime);
+}
+
+/* تصميم الموبايل */
+@media (max-width: 768px) {
+
+    .navbar .container {
+        flex-wrap: wrap;
+    }
+
+    .menu-btn {
+        display: block;
+    }
+
+    .nav-links {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px 0;
+    }
+
+    .nav-links.show {
+        display: flex;
+    }
+
+    .hero {
+        padding: 80px 15px;
+    }
+
+    .hero h1 {
+        font-size: 27px;
+    }
+
+    section {
+        padding: 45px 0;
+    }
+}
