@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b2540">
+    <meta name="description" content="إدارة محتوى موقع مدار تك">
+    <title>لوحة مدار تك | إدارة الموقع</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar" id="sidebar">
+            <a class="brand" href="index.html" aria-label="مدار تك" data-i18n="brandName" data-i18n-attr="aria-label">
+                <img src="images/logo.png" alt="شعار مدار تك" data-i18n="logoAlt" data-i18n-attr="alt">
+                <span class="brand-copy"><strong>مدار تك</strong><small data-i18n="brandSubtitle">إدارة الموقع</small></span>
+            </a>
+            <nav class="side-nav" aria-label="القائمة الرئيسية" data-i18n="mainNav" data-i18n-attr="aria-label">
+                <span class="nav-caption" data-i18n="navOverview">نظرة عامة</span>
+                <button class="nav-link active" type="button" data-view="home"><span class="nav-icon">⌂</span><span data-i18n="navHome">لوحة التحكم</span></button>
+                <span class="nav-caption" data-i18n="navContent">إدارة المحتوى</span>
+                <button class="nav-link" type="button" data-view="sections"><span class="nav-icon">▤</span><span data-i18n="navSections">أقسام الموقع</span></button>
+                <button class="nav-link" type="button" data-view="pages"><span class="nav-icon">▧</span><span data-i18n="navPages">الصفحات</span></button>
+                <button class="nav-link" type="button" data-view="services"><span class="nav-icon">✳</span><span data-i18n="navServices">الخدمات</span></button>
+                <button class="nav-link" type="button" data-view="projects"><span class="nav-icon">◇</span><span data-i18n="navProjects">المشاريع</span></button>
+                <button class="nav-link" type="button" data-view="teamMembers"><span class="nav-icon">♧</span><span data-i18n="navTeam">فريق العمل</span></button>
+                <button class="nav-link" type="button" data-view="testimonials"><span class="nav-icon">❞</span><span data-i18n="navTestimonials">آراء العملاء</span></button>
+                <button class="nav-link" type="button" data-view="faq"><span class="nav-icon">?</span><span data-i18n="navFaq">الأسئلة الشائعة</span></button>
+                <button class="nav-link" type="button" data-view="messages"><span class="nav-icon">✉</span><span data-i18n="navMessages">الرسائل</span><span id="unreadBadge" class="nav-badge" hidden>0</span></button>
+                <span class="nav-caption nav-caption-bottom" data-i18n="navSystem">النظام</span>
+                <button class="nav-link" type="button" data-view="settings"><span class="nav-icon">⚙</span><span data-i18n="navSettings">الإعدادات</span></button>
+            </nav>
+            <a class="site-link" href="index.html"><span>↗</span><span data-i18n="viewSite">عرض الموقع</span></a>
+        </aside>
+
+        <main class="main-area">
+            <header class="topbar">
+                <div class="topbar-start">
+                    <button class="icon-button mobile-menu" id="menuToggle" type="button" aria-label="فتح القائمة" data-i18n="openMenu" data-i18n-attr="aria-label" aria-expanded="false">☰</button>
+                    <div class="breadcrumb"><span data-i18n="brandName">مدار تك</span><span class="breadcrumb-separator">/</span><strong id="currentViewTitle">لوحة التحكم</strong></div>
+                </div>
+                <div class="topbar-actions">
+                    <span class="save-state" id="saveState" role="status" aria-live="polite"><i class="state-dot"></i><span data-i18n="loading">جارٍ تحميل المسودة…</span></span>
+                    <button class="button button-quiet" id="languageToggle" type="button" aria-label="Switch to English">EN</button>
+                    <button class="button button-outline" id="exportButton" type="button" data-i18n="exportJson">تصدير JSON</button>
+                    <button class="button button-outline" id="previewButton" type="button"><span>◉</span><span data-i18n="preview">معاينة</span></button>
+                    <button class="button button-primary" id="saveButton" type="button" disabled><span>↥</span><span data-i18n="save">حفظ التغييرات</span></button>
+                    <button class="button button-outline" id="logoutButton" type="button" data-i18n="logout" disabled>تسجيل الخروج</button>
+                </div>
+            </header>
+
+            <div class="workspace">
+                <div id="notice" class="notice" role="alert" hidden></div>
+                <section id="viewRoot" aria-live="polite"></section>
+            </div>
+        </main>
+    </div>
+
+    <dialog class="auth-dialog" id="loginDialog" aria-labelledby="loginTitle">
+        <form class="auth-form" id="loginForm">
+            <span class="eyebrow" data-i18n="loginEyebrow">حماية لوحة التحكم</span>
+            <h2 id="loginTitle" data-i18n="loginTitle">تسجيل الدخول</h2>
+            <p data-i18n="loginDescription">أدخل كلمة المرور التي ظهرت عند إعداد الخادم.</p>
+            <label for="adminPassword" data-i18n="loginPassword">كلمة مرور الإدارة</label>
+            <input id="adminPassword" name="password" type="password" autocomplete="current-password" required>
+            <p class="auth-error" id="loginError" role="alert" hidden></p>
+            <button class="button button-primary" id="loginSubmit" type="submit" data-i18n="loginSubmit">دخول</button>
+        </form>
+    </dialog>
+
+    <dialog class="preview-dialog" id="previewDialog" aria-labelledby="previewTitle">
+        <div class="dialog-header">
+            <div><span class="eyebrow" data-i18n="previewEyebrow">عرض تجريبي</span><h2 id="previewTitle" data-i18n="previewTitle">معاينة الموقع</h2></div>
+            <button class="icon-button" id="closePreview" type="button" aria-label="إغلاق" data-i18n="close" data-i18n-attr="aria-label">×</button>
+        </div>
+        <iframe id="previewFrame" title="معاينة الموقع" data-i18n="previewTitle" data-i18n-attr="title" sandbox="allow-same-origin"></iframe>
+    </dialog>
+
+    <script type="module" src="js/dashboard.js"></script>
+</body>
+</html>

@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b2540">
+    <meta name="description" content="مدار تك مساحة للتعلم والتدريب وتطوير المهارات وصناعة الفرص في خانيونس.">
     <title>مدار تك | Madar Tech</title>
 
     <link rel="stylesheet" href="css/bootstrap.rtl.min.css">
@@ -11,247 +13,359 @@
 </head>
 
 <body>
+    <svg class="icon-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <symbol id="icon-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" /></symbol>
+        <symbol id="icon-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" /></symbol>
+        <symbol id="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" /><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" /></symbol>
+        <symbol id="icon-moon" viewBox="0 0 24 24"><path d="M20.9 13A9 9 0 0 1 11 3.1 9 9 0 1 0 20.9 13Z" /></symbol>
+        <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" /></symbol>
+        <symbol id="icon-spark" viewBox="0 0 24 24"><path d="m12 3 1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2L12 3Zm7 12 .9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9L19 15Z" /></symbol>
+        <symbol id="icon-book" viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21V5.5Zm0 13A2.5 2.5 0 0 1 6.5 16H20M8 7h8m-8 4h8" /></symbol>
+        <symbol id="icon-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2m7-10a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm13 10v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" /></symbol>
+        <symbol id="icon-lightbulb" viewBox="0 0 24 24"><path d="M9 18h6m-5 4h4m-2-20a7 7 0 0 0-4 12.75c.6.4 1 1.05 1 1.75h6c0-.7.4-1.35 1-1.75A7 7 0 0 0 12 2Z" /></symbol>
+        <symbol id="icon-briefcase" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="14" rx="2" /><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m-13 6h18m-11-1v2h4v-2" /></symbol>
+        <symbol id="icon-location" viewBox="0 0 24 24"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z" /><circle cx="12" cy="10" r="2.5" /></symbol>
+        <symbol id="icon-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></symbol>
+        <symbol id="icon-instagram" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><path d="M17.5 6.5h.01" /></symbol>
+        <symbol id="icon-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6" /></symbol>
+    </svg>
 
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="container">
-            <a href="#home" class="logo">
-                <img src="images/logo.png" alt="شعار مدار تك">
-            </a>
-
-            <button class="menu-btn" id="menuBtn">☰</button>
-
-            <ul class="nav-links" id="navLinks">
-                <li><a href="#home">الرئيسية</a></li>
-                <li><a href="#about">من نحن</a></li>
-                <li><a href="#services">خدماتنا</a></li>
-                <li><a href="#programs">البرامج التدريبية</a></li>
-                <li><a href="#contact">تواصل معنا</a></li>
-                <li><a href="#contact" class="nav-button">احجز الآن</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <!-- Hero -->
-    <section class="hero" id="home">
-        <div class="container">
-            <h1>مساحتك للتعلّم، التطور، وصناعة الفرص</h1>
-
-            <p>
-                مدار تك مؤسسة تعليمية وتدريبية في خانيونس،
-                نعمل على توفير بيئة تساعد الطالب والخريجين والشباب
-                على تطوير مهاراتهم واكتساب الخبرات العملية.
-            </p>
-
-            <a href="#services" class="main-button">اكتشف خدماتنا</a>
-            <a href="#contact" class="second-button">تواصل معنا</a>
-        </div>
-    </section>
-
-    <!-- About Us -->
-    <section class="about section" id="about">
-        <div class="container">
-            <h2>من نحن</h2>
-            <h3>نتعلم اليوم لنصنع فرص الغد.</h3>
-
-            <p>
-                مدار تك مؤسسة تعليمية وتدريبية تسعى إلى ربط المعرفة
-                الأكاديمية بالتطبيق العملي، من خلال تقديم برامج تدريبية
-                وأنشطة تعليمية تساعد الشباب على تطوير قدراتهم
-                ومواكبة متطلبات سوق العمل.
-            </p>
-
-            <img src="images/imag5.jpeg"
-                 alt="تعريف بمؤسسة مدار تك"
-                 class="section-image">
-
-            <div class="row">
-                <div class="col-md-6">
-                    <h3>رؤيتنا</h3>
-                    <p>أن نكون مساحة تعليمية تساعد الشباب على التعلم والتطور وصناعة الفرص.</p>
-                </div>
-
-                <div class="col-md-6">
-                    <h3>رسالتنا</h3>
-                    <p>
-                        توفير فرص تعليم وتدريب نوعية تساعد الأفراد على اكتشاف
-                        إمكاناتهم وتطوير مهاراتهم وتحويل المعرفة إلى تطبيق عملي.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Work Spaces -->
-    <section class="spaces section" id="spaces">
-        <div class="container">
-            <h2>مساحات العمل في مدار تك</h2>
-            <p>مساحات مناسبة للتعلم والعمل وتبادل الخبرات.</p>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="space-card">
-                        <img src="images/boys.jpeg" alt="مساحة الشباب">
-                        <h3>مساحة الشباب</h3>
-                        <p>بيئة مناسبة للشباب للتعلم والعمل وإنجاز المهام وتطوير المهارات.</p>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="space-card">
-                        <img src="images/girls.jpeg" alt="مساحة البنات">
-                        <h3>مساحة البنات</h3>
-                        <p>مساحة مريحة تساعد الطالبات والشابات على التعلم والعمل وتبادل الخبرات.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Services -->
-    <section class="services section" id="services">
-        <div class="container">
-            <h2>خدماتنا</h2>
-
-            <div class="row">
-                <div class="col-md-6 col-lg-3">
-                    <div class="service-card">
-                        <h3>التدريب والتطوير</h3>
-                        <p>برامج تدريبية متخصصة تهدف إلى تطوير المهارات التقنية والمهنية من خلال التعلم والتطبيق.</p>
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-lg-3">
-                    <div class="service-card">
-                        <h3>مساحات العمل المشتركة</h3>
-                        <p>بيئة مناسبة للطلاب والمستقلين وأصحاب المشاريع لإنجاز أعمالهم وتبادل الأفكار.</p>
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-lg-3">
-                    <div class="service-card">
-                        <h3>القاعات التدريبية</h3>
-                        <p>قاعات مجهزة لاستضافة الدورات التدريبية والاجتماعات والفعاليات والأنشطة.</p>
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-lg-3">
-                    <div class="service-card">
-                        <h3>الأنشطة التعليمية</h3>
-                        <p>لقاءات ومبادرات تعليمية تساهم في نشر المعرفة وتبادل الخبرات.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Training Programs -->
-    <section class="programs section" id="programs">
-        <div class="container">
-            <h2>طور مهاراتك وابدأ خطوتك القادمة</h2>
-
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="program-card">
-                        <h3>Front-End Development</h3>
-                        <p>تعلم أساسيات تطوير واجهات المواقع الإلكترونية.</p>
-                        <a href="#contact">اعرف المزيد</a>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="program-card">
-                        <h3>Artificial Intelligence</h3>
-                        <p>التعرف على أدوات الذكاء الاصطناعي وتطبيقاتها العملية.</p>
-                        <a href="#contact">اعرف المزيد</a>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="program-card">
-                        <h3>Digital Skills</h3>
-                        <p>تطوير المهارات الرقمية واستخدام الأدوات التقنية.</p>
-                        <a href="#contact">اعرف المزيد</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Why Madar -->
-    <section class="why-madar section" id="why">
-        <div class="container">
-            <h2>ألن بيئة التعلم تصنع فرقاً.</h2>
-
-            <div class="row">
-                <div class="col-md-4"><p>بيئة تعليمية محفزة.</p></div>
-                <div class="col-md-4"><p>إنترنت مستقر.</p></div>
-                <div class="col-md-4"><p>كهرباء متوفرة.</p></div>
-                <div class="col-md-4"><p>تدريب يجمع بين المعرفة والتطبيق.</p></div>
-                <div class="col-md-4"><p>فرصة للتواصل وتبادل الخبرات.</p></div>
-                <div class="col-md-4"><p>دعم وتوجيه خلال رحلة التعلم والتطوير.</p></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact -->
-    <section class="contact section" id="contact">
-        <div class="container">
-            <h2>خلينا نبدأ رحلتك مع بعض</h2>
-            <p>عندك استفسار عن برامجنا أو خدماتنا؟ تواصل معنا، وفريق مدار تك جاهز يساعدك.</p>
-
-            <form id="contactForm">
-                <label>الاسم</label>
-                <input type="text" name="name" required>
-
-                <label>البريد الإلكتروني</label>
-                <input type="email" name="email" required>
-
-                <label>رقم الهاتف</label>
-                <input type="tel" name="phone" required>
-
-                <label>الرسالة</label>
-                <textarea name="message" required></textarea>
-
-                <button type="submit">إرسال عبر واتساب</button>
-            </form>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <img src="images/logo.png" alt="شعار مدار تك">
-
-            <p>مدار تك مساحة للتعلم والتدريب وتطوير المهارات وصناعة الفرص.</p>
-
-            <h3>روابط الموقع</h3>
-            <a href="#home">الرئيسية</a>
-            <a href="#about">من نحن</a>
-            <a href="#services">خدماتنا</a>
-            <a href="#programs">البرامج التدريبية</a>
-            <a href="#contact">تواصل معنا</a>
-
-            <h3>تواصل معنا</h3>
-            <p>
-                البريد:
-                <a href="mailto:madartech1@gmail.com">madartech1@gmail.com</a>
-            </p>
-
-            <p>
-                إنستغرام:
-                <a href="https://www.instagram.com/madar_tech0" target="_blank">
-                    Madar Tech
+    <header class="site-header">
+        <nav class="navbar" aria-label="التنقل الرئيسي" data-i18n="nav.ariaLabel" data-i18n-attr="aria-label">
+            <div class="container nav-shell">
+                <a href="#home" class="logo" aria-label="Madar Tech">
+                    <img src="images/logo.png" alt="شعار مدار تك" data-i18n="brand.logoAlt" data-i18n-attr="alt">
                 </a>
-            </p>
 
-            <p>الموقع: خانيونس – بجانب المحكمة الشرعية.</p>
+                <button class="menu-btn" id="menuBtn" type="button" aria-controls="navLinks" aria-expanded="false" aria-label="فتح القائمة">
+                    <svg class="icon icon-menu" aria-hidden="true"><use href="#icon-menu"></use></svg>
+                    <svg class="icon icon-close" aria-hidden="true"><use href="#icon-close"></use></svg>
+                </button>
 
-            <p>© Madar Tech جميع الحقوق محفوظة</p>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#home" data-i18n="nav.home">الرئيسية</a></li>
+                    <li><a href="#about" data-i18n="nav.about">من نحن</a></li>
+                    <li><a href="#services" data-i18n="nav.services">خدماتنا</a></li>
+                    <li><a href="#programs" data-i18n="nav.programs">البرامج التدريبية</a></li>
+                    <li><a href="#contact" data-i18n="nav.contact">تواصل معنا</a></li>
+                    <li class="nav-cta-wrap"><a href="#contact" class="nav-button" data-i18n="nav.book">احجز الآن</a></li>
+                </ul>
+
+                <div class="nav-tools">
+                    <button class="icon-button language-toggle" id="languageToggle" type="button" aria-label="Switch to English">EN</button>
+                    <button class="icon-button theme-toggle" id="themeToggle" type="button" aria-label="تفعيل الوضع الداكن">
+                        <svg class="icon theme-icon" aria-hidden="true"><use href="#icon-moon"></use></svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="hero-aurora" aria-hidden="true"></div>
+            <div class="container hero-layout">
+                <div class="hero-content">
+                    <span class="eyebrow hero-eyebrow">
+                        <svg class="icon" aria-hidden="true"><use href="#icon-spark"></use></svg>
+                        <span data-i18n="hero.eyebrow">مدار تك — مساحة للتعلم والتطور</span>
+                    </span>
+                    <h1 aria-label="مساحتك للتعلّم، التطور، وصناعة الفرص" data-i18n="hero.titleAccessible" data-i18n-attr="aria-label">
+                        <span data-i18n="hero.titlePrefix">مساحتك</span>
+                        <span class="hero-word-swap" aria-hidden="true">
+                            <span data-i18n="hero.wordLearning">للتعلّم</span>
+                            <span data-i18n="hero.wordDevelopment">للتطوّر</span>
+                        </span>
+                    </h1>
+                    <p data-i18n="hero.body">مدار تك مؤسسة تعليمية وتدريبية في خانيونس، نعمل على توفير بيئة تساعد الطالب والخريجين والشباب على تطوير مهاراتهم واكتساب الخبرات العملية.</p>
+                    <div class="hero-actions">
+                        <a href="#services" class="button button-primary">
+                            <span data-i18n="hero.services">اكتشف خدماتنا</span>
+                            <svg class="icon directional-icon" aria-hidden="true"><use href="#icon-arrow"></use></svg>
+                        </a>
+                        <a href="#contact" class="button button-ghost" data-i18n="hero.contact">تواصل معنا</a>
+                    </div>
+                    <div class="hero-note">
+                        <span class="hero-note-line"></span>
+                        <span data-i18n="hero.note">تعلّم اليوم، وابدأ خطوتك القادمة</span>
+                    </div>
+                </div>
+                <div class="hero-media" aria-hidden="true">
+                    <img class="hero-image" src="images/imag5.jpeg" alt="">
+                    <span class="hero-float-icon hero-float-icon-book"><svg class="icon"><use href="#icon-book"></use></svg></span>
+                    <span class="hero-float-icon hero-float-icon-briefcase"><svg class="icon"><use href="#icon-briefcase"></use></svg></span>
+                    <span class="hero-float-icon hero-float-icon-lightbulb"><svg class="icon"><use href="#icon-lightbulb"></use></svg></span>
+                    <span class="hero-float-icon hero-float-icon-users"><svg class="icon"><use href="#icon-users"></use></svg></span>
+                </div>
+            </div>
+            <a class="scroll-cue" href="#about" aria-label="Scroll to about section"><span></span></a>
+        </section>
+
+        <section class="about section section-light" id="about">
+            <div class="container">
+                <div class="section-heading">
+                    <span class="eyebrow" data-i18n="about.eyebrow">من نحن</span>
+                    <h2 data-i18n="about.title">نتعلم اليوم لنصنع فرص الغد.</h2>
+                    <p data-i18n="about.body">مدار تك مؤسسة تعليمية وتدريبية تسعى إلى ربط المعرفة الأكاديمية بالتطبيق العملي، من خلال تقديم برامج تدريبية وأنشطة تعليمية تساعد الشباب على تطوير قدراتهم ومواكبة متطلبات سوق العمل.</p>
+                </div>
+
+                <div class="about-layout">
+                    <div class="about-image-wrap">
+                        <img src="images/imag4.jpeg" alt="تعريف بمؤسسة مدار تك" class="section-image" data-i18n="about.imageAlt" data-i18n-attr="alt">
+                        <div class="image-caption">
+                            <span class="image-caption-mark"><svg class="icon" aria-hidden="true"><use href="#icon-spark"></use></svg></span>
+                            <span data-i18n="about.imageCaption">مساحة مصممة لإبداعك</span>
+                        </div>
+                    </div>
+                    <div class="about-values">
+                        <article class="value-card">
+                            <span class="card-icon"><svg class="icon" aria-hidden="true"><use href="#icon-lightbulb"></use></svg></span>
+                            <h3 data-i18n="about.visionTitle">رؤيتنا</h3>
+                            <p data-i18n="about.vision">أن نكون مساحة تعليمية تساعد الشباب على التعلم والتطور وصناعة الفرص.</p>
+                        </article>
+                        <article class="value-card">
+                            <span class="card-icon"><svg class="icon" aria-hidden="true"><use href="#icon-book"></use></svg></span>
+                            <h3 data-i18n="about.missionTitle">رسالتنا</h3>
+                            <p data-i18n="about.mission">توفير فرص تعليم وتدريب نوعية تساعد الأفراد على اكتشاف إمكاناتهم وتطوير مهاراتهم وتحويل المعرفة إلى تطبيق عملي.</p>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="spaces section section-muted" id="spaces">
+            <div class="container">
+                <div class="section-heading">
+                    <span class="eyebrow" data-i18n="spaces.eyebrow">تعلّم وشارك</span>
+                    <h2 data-i18n="spaces.title">مساحات العمل في مدار تك</h2>
+                    <p data-i18n="spaces.body">مساحات مناسبة للتعلم والعمل وتبادل الخبرات.</p>
+                </div>
+                <div class="row g-4 space-grid">
+                    <div class="col-md-6">
+                        <article class="space-card">
+                            <div class="space-image"><img src="images/boys.jpeg" alt="مساحة الشباب" data-i18n="spaces.boysAlt" data-i18n-attr="alt"></div>
+                            <div class="space-copy">
+                                <span class="card-icon"><svg class="icon" aria-hidden="true"><use href="#icon-users"></use></svg></span>
+                                <h3 data-i18n="spaces.boysTitle">مساحة الشباب</h3>
+                                <p data-i18n="spaces.boysBody">بيئة مناسبة للشباب للتعلم والعمل وإنجاز المهام وتطوير المهارات.</p>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="col-md-6">
+                        <article class="space-card">
+                            <div class="space-image"><img src="images/girls.jpeg" alt="مساحة البنات" data-i18n="spaces.girlsAlt" data-i18n-attr="alt"></div>
+                            <div class="space-copy">
+                                <span class="card-icon"><svg class="icon" aria-hidden="true"><use href="#icon-users"></use></svg></span>
+                                <h3 data-i18n="spaces.girlsTitle">مساحة البنات</h3>
+                                <p data-i18n="spaces.girlsBody">مساحة مريحة تساعد الطالبات والشابات على التعلم والعمل وتبادل الخبرات.</p>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="services section section-light" id="services">
+            <div class="container">
+                <div class="section-heading">
+                    <span class="eyebrow" data-i18n="services.eyebrow">ماذا نقدم؟</span>
+                    <h2 data-i18n="services.title">خدماتنا</h2>
+                </div>
+                <div class="row g-3 services-grid">
+                    <div class="col-sm-6 col-lg-3"><article class="service-card">
+                        <span class="card-icon"><svg class="icon" aria-hidden="true"><use href="#icon-lightbulb"></use></svg></span>
+                        <h3 data-i18n="services.trainingTitle">التدريب والتطوير</h3>
+                        <p data-i18n="services.trainingBody">برامج تدريبية متخصصة تهدف إلى تطوير المهارات التقنية والمهنية من خلال التعلم والتطبيق.</p>
+                    </article></div>
+                    <div class="col-sm-6 col-lg-3"><article class="service-card">
+                        <span class="card-icon"><svg class="icon" aria-hidden="true"><use href="#icon-briefcase"></use></svg></span>
+                        <h3 data-i18n="services.spaceTitle">مساحات العمل المشتركة</h3>
+                        <p data-i18n="services.spaceBody">بيئة مناسبة للطلاب والمستقلين وأصحاب المشاريع لإنجاز أعمالهم وتبادل الأفكار.</p>
+                    </article></div>
+                    <div class="col-sm-6 col-lg-3"><article class="service-card">
+                        <span class="card-icon"><svg class="icon" aria-hidden="true"><use href="#icon-book"></use></svg></span>
+                        <h3 data-i18n="services.roomsTitle">القاعات التدريبية</h3>
+                        <p data-i18n="services.roomsBody">قاعات مجهزة لاستضافة الدورات التدريبية والاجتماعات والفعاليات والأنشطة.</p>
+                    </article></div>
+                    <div class="col-sm-6 col-lg-3"><article class="service-card">
+                        <span class="card-icon"><svg class="icon" aria-hidden="true"><use href="#icon-spark"></use></svg></span>
+                        <h3 data-i18n="services.activitiesTitle">الأنشطة التعليمية</h3>
+                        <p data-i18n="services.activitiesBody">لقاءات ومبادرات تعليمية تساهم في نشر المعرفة وتبادل الخبرات.</p>
+                    </article></div>
+                </div>
+            </div>
+        </section>
+
+        <div id="cmsSections"></div>
+
+        <section class="programs section section-muted" id="programs">
+            <div class="container">
+                <div class="section-heading">
+                    <span class="eyebrow" data-i18n="programs.eyebrow">خطوتك القادمة تبدأ هنا</span>
+                    <h2 data-i18n="programs.title">طور مهاراتك وابدأ خطوتك القادمة</h2>
+                </div>
+                <div class="row g-4 programs-grid">
+                    <div class="col-md-4"><article class="program-card">
+                        <span class="program-symbol">&lt;/&gt;</span>
+                        <span class="program-label" data-i18n="programs.label">برنامج تدريبي</span>
+                        <h3>Front-End Development</h3>
+                        <p data-i18n="programs.frontEnd">تعلم أساسيات تطوير واجهات المواقع الإلكترونية.</p>
+                        <a href="#contact" class="text-link"><span data-i18n="programs.more">اعرف المزيد</span><svg class="icon directional-icon" aria-hidden="true"><use href="#icon-arrow"></use></svg></a>
+                    </article></div>
+                    <div class="col-md-4"><article class="program-card">
+                        <span class="program-symbol">✳</span>
+                        <span class="program-label" data-i18n="programs.label">برنامج تدريبي</span>
+                        <h3>Artificial Intelligence</h3>
+                        <p data-i18n="programs.ai">التعرف على أدوات الذكاء الاصطناعي وتطبيقاتها العملية.</p>
+                        <a href="#contact" class="text-link"><span data-i18n="programs.more">اعرف المزيد</span><svg class="icon directional-icon" aria-hidden="true"><use href="#icon-arrow"></use></svg></a>
+                    </article></div>
+                    <div class="col-md-4"><article class="program-card">
+                        <span class="program-symbol">⌘</span>
+                        <span class="program-label" data-i18n="programs.label">برنامج تدريبي</span>
+                        <h3>Digital Skills</h3>
+                        <p data-i18n="programs.digital">تطوير المهارات الرقمية واستخدام الأدوات التقنية.</p>
+                        <a href="#contact" class="text-link"><span data-i18n="programs.more">اعرف المزيد</span><svg class="icon directional-icon" aria-hidden="true"><use href="#icon-arrow"></use></svg></a>
+                    </article></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="why-madar section" id="why">
+            <div class="why-aurora" aria-hidden="true"></div>
+            <div class="container why-content">
+                <div class="section-heading">
+                    <span class="eyebrow" data-i18n="why.eyebrow">لماذا مدار تك؟</span>
+                    <h2 data-i18n="why.title">لأن بيئة التعلم تصنع فرقاً.</h2>
+                </div>
+                <div class="row g-3 why-grid">
+                    <div class="col-sm-6 col-lg-4"><div class="why-item"><svg class="icon" aria-hidden="true"><use href="#icon-check"></use></svg><p data-i18n="why.item1">بيئة تعليمية محفزة.</p></div></div>
+                    <div class="col-sm-6 col-lg-4"><div class="why-item"><svg class="icon" aria-hidden="true"><use href="#icon-check"></use></svg><p data-i18n="why.item2">إنترنت مستقر.</p></div></div>
+                    <div class="col-sm-6 col-lg-4"><div class="why-item"><svg class="icon" aria-hidden="true"><use href="#icon-check"></use></svg><p data-i18n="why.item3">كهرباء متوفرة.</p></div></div>
+                    <div class="col-sm-6 col-lg-4"><div class="why-item"><svg class="icon" aria-hidden="true"><use href="#icon-check"></use></svg><p data-i18n="why.item4">تدريب يجمع بين المعرفة والتطبيق.</p></div></div>
+                    <div class="col-sm-6 col-lg-4"><div class="why-item"><svg class="icon" aria-hidden="true"><use href="#icon-check"></use></svg><p data-i18n="why.item5">فرصة للتواصل وتبادل الخبرات.</p></div></div>
+                    <div class="col-sm-6 col-lg-4"><div class="why-item"><svg class="icon" aria-hidden="true"><use href="#icon-check"></use></svg><p data-i18n="why.item6">دعم وتوجيه خلال رحلة التعلم والتطوير.</p></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact section section-light" id="contact">
+            <div class="container">
+                <div class="contact-layout">
+                    <div class="contact-copy">
+                        <span class="eyebrow" data-i18n="contact.eyebrow">نحن هنا لمساعدتك</span>
+                        <h2 data-i18n="contact.title">خلينا نبدأ رحلتك مع بعض</h2>
+                        <p data-i18n="contact.body">عندك استفسار عن برامجنا أو خدماتنا؟ تواصل معنا، وفريق مدار تك جاهز يساعدك.</p>
+                        <div class="contact-points">
+                            <span><svg class="icon" aria-hidden="true"><use href="#icon-location"></use></svg><span data-i18n="contact.location">خانيونس – بجانب المحكمة الشرعية.</span></span>
+                            <a href="mailto:madartech1@gmail.com" data-public-email><svg class="icon" aria-hidden="true"><use href="#icon-mail"></use></svg>madartech1@gmail.com</a>
+                        </div>
+                    </div>
+                    <form id="contactForm" class="contact-form">
+                        <label for="contactName" data-i18n="contact.name">الاسم</label>
+                        <input id="contactName" type="text" name="name" autocomplete="name" required data-i18n="contact.namePlaceholder" data-i18n-attr="placeholder">
+
+                        <label for="contactEmail" data-i18n="contact.email">البريد الإلكتروني</label>
+                        <input id="contactEmail" type="email" name="email" autocomplete="email" required data-i18n="contact.emailPlaceholder" data-i18n-attr="placeholder">
+
+                        <label for="contactPhone" data-i18n="contact.phone">رقم الهاتف</label>
+                        <input id="contactPhone" type="tel" name="phone" autocomplete="tel" required data-i18n="contact.phonePlaceholder" data-i18n-attr="placeholder">
+
+                        <label for="contactMessage" data-i18n="contact.message">الرسالة</label>
+                        <textarea id="contactMessage" name="message" rows="4" required data-i18n="contact.messagePlaceholder" data-i18n-attr="placeholder"></textarea>
+
+                        <button type="submit" class="button button-primary contact-submit">
+                            <span data-i18n="contact.send">إرسال عبر واتساب</span>
+                            <svg class="icon directional-icon" aria-hidden="true"><use href="#icon-arrow"></use></svg>
+                        </button>
+                        <p class="form-note" data-i18n="contact.note">سيتم فتح واتساب لإرسال رسالتك مباشرة.</p>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq section section-muted" id="faq">
+            <div class="container faq-layout">
+                <div class="section-heading faq-heading">
+                    <span class="eyebrow" data-i18n="faq.eyebrow">إجابات سريعة</span>
+                    <h2 data-i18n="faq.title">الأسئلة الشائعة</h2>
+                    <p data-i18n="faq.body">إليك معلومات سريعة عن مدار تك وخدماتها.</p>
+                </div>
+                <div class="faq-list">
+                    <details class="faq-item" open>
+                        <summary data-i18n="faq.q1">ما هي مدار تك؟</summary>
+                        <p data-i18n="faq.a1">مدار تك مؤسسة تعليمية وتدريبية في خانيونس، تربط المعرفة الأكاديمية بالتطبيق العملي وتساعد الشباب على تطوير مهاراتهم.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary data-i18n="faq.q2">ما الخدمات التي تقدمها مدار تك؟</summary>
+                        <p data-i18n="faq.a2">تشمل خدماتنا التدريب والتطوير، ومساحات العمل المشتركة، والقاعات التدريبية، والأنشطة التعليمية.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary data-i18n="faq.q3">كيف أستفسر عن البرامج التدريبية؟</summary>
+                        <p data-i18n="faq.a3">أرسل استفسارك عبر نموذج التواصل، وسيفتح واتساب مع تفاصيل رسالتك لإرسالها إلى فريق مدار تك.</p>
+                    </details>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-wave-shell" aria-hidden="true">
+            <svg class="footer-wave" viewBox="0 0 2400 60" preserveAspectRatio="none">
+                <g class="footer-wave-track">
+                    <path d="M0 30 Q 150 0 300 30 T 600 30 T 900 30 T 1200 30 T 1500 30 T 1800 30 T 2100 30 T 2400 30 V60 H0Z"></path>
+                    <path d="M0 30 Q 150 0 300 30 T 600 30 T 900 30 T 1200 30 T 1500 30 T 1800 30 T 2100 30 T 2400 30 V60 H0Z" transform="translate(2400 0)"></path>
+                </g>
+            </svg>
+        </div>
+        <div class="container">
+            <section class="footer-subscribe" aria-labelledby="newsletterTitle">
+                <div class="subscribe-copy">
+                    <span class="eyebrow" data-i18n="newsletter.eyebrow">ابقَ على تواصل</span>
+                    <h2 id="newsletterTitle" data-i18n="newsletter.title">خلّيك على تواصل</h2>
+                    <p data-i18n="newsletter.body">أخبار التدريبات والعروض أول بأول.</p>
+                </div>
+                <form id="newsletterForm" class="newsletter-form">
+                    <label for="newsletterEmail" data-i18n="newsletter.emailLabel">البريد الإلكتروني</label>
+                    <div class="newsletter-input-row">
+                        <input id="newsletterEmail" type="email" name="email" autocomplete="email" required data-i18n="newsletter.emailPlaceholder" data-i18n-attr="placeholder">
+                        <button type="submit" class="button button-primary">
+                            <span data-i18n="newsletter.submit">إرسال طلب الاشتراك</span>
+                            <svg class="icon directional-icon" aria-hidden="true"><use href="#icon-arrow"></use></svg>
+                        </button>
+                    </div>
+                    <p class="subscribe-note" data-i18n="newsletter.note">سيتم فتح تطبيق البريد لإرسال طلبك؛ لا يتم التسجيل تلقائياً.</p>
+                </form>
+            </section>
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <a href="#home" class="footer-logo" aria-label="Madar Tech">
+                        <img src="images/logo.png" alt="شعار مدار تك" data-i18n="brand.logoAlt" data-i18n-attr="alt">
+                    </a>
+                    <p data-i18n="footer.tagline">مدار تك مساحة للتعلم والتدريب وتطوير المهارات وصناعة الفرص.</p>
+                </div>
+                <div class="footer-links">
+                    <h3 data-i18n="footer.linksTitle">روابط الموقع</h3>
+                    <a href="#home" data-i18n="nav.home">الرئيسية</a>
+                    <a href="#about" data-i18n="nav.about">من نحن</a>
+                    <a href="#services" data-i18n="nav.services">خدماتنا</a>
+                    <a href="#programs" data-i18n="nav.programs">البرامج التدريبية</a>
+                    <a href="#contact" data-i18n="nav.contact">تواصل معنا</a>
+                </div>
+                <div class="footer-contact">
+                    <h3 data-i18n="footer.contactTitle">تواصل معنا</h3>
+                    <a href="mailto:madartech1@gmail.com" data-public-email><svg class="icon" aria-hidden="true"><use href="#icon-mail"></use></svg>madartech1@gmail.com</a>
+                    <a href="https://www.instagram.com/madar_tech0" target="_blank" rel="noopener noreferrer"><svg class="icon" aria-hidden="true"><use href="#icon-instagram"></use></svg><span>Madar Tech</span></a>
+                    <p><svg class="icon" aria-hidden="true"><use href="#icon-location"></use></svg><span data-i18n="contact.location">خانيونس – بجانب المحكمة الشرعية.</span></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span data-i18n="footer.copyright">© Madar Tech جميع الحقوق محفوظة</span>
+                <a href="#home" class="back-to-top"><span data-i18n="footer.backTop">العودة للأعلى</span><svg class="icon" aria-hidden="true"><use href="#icon-arrow"></use></svg></a>
+            </div>
         </div>
     </footer>
 
     <script src="js/script.js"></script>
-
 </body>
+
 </html>
