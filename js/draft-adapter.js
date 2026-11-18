@@ -4,27 +4,27 @@ const LOGOUT_ENDPOINT = "/api/auth/logout";
 const LOCAL_DRAFT_KEY = "madar-tech-dashboard-draft";
 
 const starterSections = [
-    { id: "about", name: "من نحن", sectionKey: "about", title: "من نحن", subtitle: "نتعلم اليوم لنصنع فرص الغد.", description: "مدار تك مساحة للتعلم والتدريب وتطوير المهارات وصناعة الفرص.", image: "images/imag4.jpeg", visible: true, order: 1 },
-    { id: "services", name: "خدماتنا", sectionKey: "services", title: "خدماتنا", subtitle: "ماذا نقدم؟", description: "خدمات متنوعة للتعلم والعمل وتطوير المهارات.", image: "", visible: true, order: 2 },
-    { id: "projects", name: "مشاريعنا", sectionKey: "projects", title: "مشاريعنا", subtitle: "", description: "أبرز المشاريع والمبادرات.", image: "", visible: true, order: 3 },
-    { id: "team", name: "فريق العمل", sectionKey: "teamMembers", title: "فريق العمل", subtitle: "", description: "فريق مدار تك.", image: "", visible: true, order: 4 },
-    { id: "testimonials", name: "آراء العملاء", sectionKey: "testimonials", title: "آراء العملاء", subtitle: "", description: "", image: "", visible: true, order: 5 },
-    { id: "faq", name: "الأسئلة الشائعة", sectionKey: "faq", title: "الأسئلة الشائعة", subtitle: "", description: "", image: "", visible: true, order: 6 },
-    { id: "contact", name: "تواصل معنا", sectionKey: "contact", title: "تواصل معنا", subtitle: "نحن هنا لمساعدتك", description: "تواصل معنا، وفريق مدار تك جاهز لمساعدتك.", image: "", visible: true, order: 7 }
+    { id: "about", name: "من نحن", nameEn: "About us", sectionKey: "about", title: "من نحن", titleEn: "About us", subtitle: "نتعلم اليوم لنصنع فرص الغد.", subtitleEn: "Learn today. Create opportunities for tomorrow.", description: "مدار تك مساحة للتعلم والتدريب وتطوير المهارات وصناعة الفرص.", descriptionEn: "Madar Tech is a space for learning, training, skill development, and creating opportunities.", image: "images/imag4.jpeg", visible: true, order: 1 },
+    { id: "services", name: "خدماتنا", nameEn: "Our services", sectionKey: "services", title: "خدماتنا", titleEn: "Our services", subtitle: "ماذا نقدم؟", subtitleEn: "What we offer", description: "خدمات متنوعة للتعلم والعمل وتطوير المهارات.", descriptionEn: "Services for learning, working, and developing skills.", image: "", visible: true, order: 2 },
+    { id: "projects", name: "مشاريعنا", nameEn: "Our projects", sectionKey: "projects", title: "مشاريعنا", titleEn: "Our projects", subtitle: "", description: "أبرز المشاريع والمبادرات.", descriptionEn: "Featured projects and initiatives.", image: "", visible: true, order: 3 },
+    { id: "team", name: "فريق العمل", nameEn: "Our team", sectionKey: "teamMembers", title: "فريق العمل", titleEn: "Our team", subtitle: "", description: "فريق مدار تك.", descriptionEn: "The Madar Tech team.", image: "", visible: true, order: 4 },
+    { id: "testimonials", name: "آراء العملاء", nameEn: "Testimonials", sectionKey: "testimonials", title: "آراء العملاء", titleEn: "Testimonials", subtitle: "", description: "", descriptionEn: "", image: "", visible: true, order: 5 },
+    { id: "faq", name: "الأسئلة الشائعة", nameEn: "Frequently asked questions", sectionKey: "faq", title: "الأسئلة الشائعة", titleEn: "Frequently asked questions", subtitle: "", subtitleEn: "", description: "", descriptionEn: "", image: "", visible: true, order: 6 },
+    { id: "contact", name: "تواصل معنا", nameEn: "Contact us", sectionKey: "contact", title: "تواصل معنا", titleEn: "Contact us", subtitle: "نحن هنا لمساعدتك", subtitleEn: "We're here to help", description: "تواصل معنا، وفريق مدار تك جاهز لمساعدتك.", descriptionEn: "Get in touch. The Madar Tech team is ready to help.", image: "", visible: true, order: 7 }
 ];
 const starterPages = [
     { id: "home", slug: "/", title: "الرئيسية", description: "موقع مدار تك للتعلم والتدريب وتطوير المهارات.", visible: true, order: 1 }
 ];
 const starterServices = [
-    { id: "training-development", title: "التدريب والتطوير", description: "برامج تدريبية متخصصة تهدف إلى تطوير المهارات التقنية والمهنية من خلال التعلم والتطبيق.", icon: "✦", visible: true, order: 1 },
-    { id: "coworking", title: "مساحات العمل المشتركة", description: "بيئة مناسبة للطلاب والمستقلين وأصحاب المشاريع لإنجاز أعمالهم وتبادل الأفكار.", icon: "⌂", visible: true, order: 2 },
-    { id: "training-rooms", title: "القاعات التدريبية", description: "قاعات مجهزة لاستضافة الدورات التدريبية والاجتماعات والفعاليات والأنشطة.", icon: "▤", visible: true, order: 3 },
-    { id: "educational-activities", title: "الأنشطة التعليمية", description: "لقاءات ومبادرات تعليمية تساهم في نشر المعرفة وتبادل الخبرات.", icon: "✳", visible: true, order: 4 }
+    { id: "training-development", title: "التدريب والتطوير", titleEn: "Training and development", description: "برامج تدريبية متخصصة تهدف إلى تطوير المهارات التقنية والمهنية من خلال التعلم والتطبيق.", descriptionEn: "Specialized training programs that develop technical and professional skills through learning and practice.", icon: "✦", visible: true, order: 1 },
+    { id: "coworking", title: "مساحات العمل المشتركة", titleEn: "Coworking spaces", description: "بيئة مناسبة للطلاب والمستقلين وأصحاب المشاريع لإنجاز أعمالهم وتبادل الأفكار.", descriptionEn: "A suitable environment for students, freelancers, and project owners to work and exchange ideas.", icon: "⌂", visible: true, order: 2 },
+    { id: "training-rooms", title: "القاعات التدريبية", titleEn: "Training rooms", description: "قاعات مجهزة لاستضافة الدورات التدريبية والاجتماعات والفعاليات والأنشطة.", descriptionEn: "Rooms equipped for training courses, meetings, events, and activities.", icon: "▤", visible: true, order: 3 },
+    { id: "educational-activities", title: "الأنشطة التعليمية", titleEn: "Educational activities", description: "لقاءات ومبادرات تعليمية تساهم في نشر المعرفة وتبادل الخبرات.", descriptionEn: "Learning sessions and initiatives that help share knowledge and experience.", icon: "✳", visible: true, order: 4 }
 ];
 const starterFaq = [
-    { id: "about-madar-tech", question: "ما هي مدار تك؟", answer: "مدار تك مؤسسة تعليمية وتدريبية في خانيونس، تربط المعرفة الأكاديمية بالتطبيق العملي وتساعد الشباب على تطوير مهاراتهم.", visible: true, order: 1 },
-    { id: "madar-services", question: "ما الخدمات التي تقدمها مدار تك؟", answer: "تشمل خدماتنا التدريب والتطوير، ومساحات العمل المشتركة، والقاعات التدريبية، والأنشطة التعليمية.", visible: true, order: 2 },
-    { id: "ask-about-programs", question: "كيف أستفسر عن البرامج التدريبية؟", answer: "أرسل استفسارك عبر نموذج التواصل، وسيفتح واتساب مع تفاصيل رسالتك لإرسالها إلى فريق مدار تك.", visible: true, order: 3 }
+    { id: "about-madar-tech", question: "ما هي مدار تك؟", questionEn: "What is Madar Tech?", answer: "مدار تك مؤسسة تعليمية وتدريبية في خانيونس، تربط المعرفة الأكاديمية بالتطبيق العملي وتساعد الشباب على تطوير مهاراتهم.", answerEn: "Madar Tech is an educational and training organization in Khan Younis. It connects academic knowledge with practical application and helps young people develop their skills.", visible: true, order: 1 },
+    { id: "madar-services", question: "ما الخدمات التي تقدمها مدار تك؟", questionEn: "What services does Madar Tech offer?", answer: "تشمل خدماتنا التدريب والتطوير، ومساحات العمل المشتركة، والقاعات التدريبية، والأنشطة التعليمية.", answerEn: "Our services include training and development, coworking spaces, training rooms, and educational activities.", visible: true, order: 2 },
+    { id: "ask-about-programs", question: "كيف أستفسر عن البرامج التدريبية؟", questionEn: "How can I ask about the training programs?", answer: "أرسل استفسارك عبر نموذج التواصل، وسيفتح واتساب مع تفاصيل رسالتك لإرسالها إلى فريق مدار تك.", answerEn: "Send your question through the contact form. WhatsApp will open with your message details so you can send it to the Madar Tech team.", visible: true, order: 3 }
 ];
 
 function isRecord(value) {
@@ -156,10 +156,13 @@ function migrateDraft(input) {
         })) : [],
         settings: {
             siteName: toText(settings.siteName, "مدار تك | Madar Tech"),
+            siteNameEn: toText(settings.siteNameEn, "Madar Tech"),
             siteDescription: toText(settings.siteDescription, "مساحة للتعلم والتدريب وتطوير المهارات وصناعة الفرص."),
+            siteDescriptionEn: toText(settings.siteDescriptionEn, "Madar Tech is a space for learning, training, skill development, and creating opportunities."),
             contactEmail: toText(settings.contactEmail),
             contactPhone: toText(settings.contactPhone),
             location: toText(settings.location),
+            locationEn: toText(settings.locationEn),
             visitorCount: Math.max(0, Number(settings.visitorCount) || 0),
             ...settings
         }

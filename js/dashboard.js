@@ -15,11 +15,17 @@ const translations = {
         contentSections: "أقسام المحتوى", editSections: "أضف أقسام الموقع ورتّبها وأدر ظهورها.", manage: "إدارة", add: "إضافة عنصر",
         edit: "تعديل", delete: "حذف", hide: "إخفاء", show: "إظهار", visible: "ظاهر", hidden: "مخفي", order: "الترتيب",
         actions: "الإجراءات", title: "العنوان", subtitle: "العنوان الفرعي", description: "الوصف", image: "رابط الصورة",
-        name: "الاسم", sectionName: "اسم القسم", sectionKey: "نوع المحتوى المرتبط", slug: "الرابط المختصر (slug)", status: "الحالة",
+        name: "الاسم", nameEnglish: "الاسم بالإنجليزية", sectionName: "اسم القسم", sectionKey: "نوع المحتوى المرتبط", slug: "الرابط المختصر (slug)", status: "الحالة",
+        notTranslated: "لا تتوفر ترجمة إنجليزية لهذا المحتوى.",
         published: "منشور", draft: "مسودة", shortDescription: "وصف قصير", category: "الفئة", projectUrl: "رابط المشروع",
-        icon: "الأيقونة", role: "المنصب", bio: "نبذة", instagram: "رابط إنستغرام", linkedin: "رابط لينكدإن", twitter: "رابط إكس / تويتر",
-        testimonialText: "نص الرأي", rating: "التقييم (من 1 إلى 5)", question: "السؤال", answer: "الإجابة", siteName: "اسم الموقع",
-        siteDescription: "وصف الموقع", contactEmail: "البريد الإلكتروني للتواصل", contactPhone: "هاتف التواصل", location: "العنوان",
+        titleEnglish: "العنوان بالإنجليزية", subtitleEnglish: "العنوان الفرعي بالإنجليزية", descriptionEnglish: "الوصف بالإنجليزية",
+        shortDescriptionEnglish: "الوصف القصير بالإنجليزية", categoryEnglish: "الفئة بالإنجليزية",
+        icon: "الأيقونة", role: "المنصب", roleEnglish: "المنصب بالإنجليزية", bio: "نبذة", bioEnglish: "النبذة بالإنجليزية",
+        instagram: "رابط إنستغرام", linkedin: "رابط لينكدإن", twitter: "رابط إكس / تويتر",
+        testimonialText: "نص الرأي", testimonialTextEnglish: "نص الرأي بالإنجليزية", rating: "التقييم (من 1 إلى 5)",
+        question: "السؤال", questionEnglish: "السؤال بالإنجليزية", answer: "الإجابة", answerEnglish: "الإجابة بالإنجليزية", siteName: "اسم الموقع",
+        siteNameEnglish: "اسم الموقع بالإنجليزية", siteDescription: "وصف الموقع", siteDescriptionEnglish: "وصف الموقع بالإنجليزية",
+        locationEnglish: "العنوان بالإنجليزية", contactEmail: "البريد الإلكتروني للتواصل", contactPhone: "هاتف التواصل", location: "العنوان",
         visitorCount: "عدد الزوار (يدوي)", cancel: "إلغاء", saveItem: "حفظ", newItem: "إضافة عنصر جديد", editItem: "تعديل العنصر",
         sectionKinds: "لا يوجد ربط", about: "من نحن", sectionServices: "الخدمات", sectionProjects: "المشاريع", sectionTeam: "فريق العمل",
         sectionTestimonials: "آراء العملاء", sectionFaq: "الأسئلة الشائعة", sectionContact: "تواصل معنا",
@@ -60,11 +66,17 @@ const translations = {
         contentSections: "Content sections", editSections: "Add, reorder, and manage the visibility of website sections.", manage: "Manage", add: "Add item",
         edit: "Edit", delete: "Delete", hide: "Hide", show: "Show", visible: "Visible", hidden: "Hidden", order: "Order",
         actions: "Actions", title: "Title", subtitle: "Subtitle", description: "Description", image: "Image URL",
-        name: "Name", sectionName: "Section name", sectionKey: "Linked content type", slug: "Slug", status: "Status",
-        published: "Published", draft: "Draft", shortDescription: "Short description", category: "Category", projectUrl: "Project URL",
-        icon: "Icon", role: "Role", bio: "Bio", instagram: "Instagram URL", linkedin: "LinkedIn URL", twitter: "X / Twitter URL",
-        testimonialText: "Testimonial", rating: "Rating (1–5)", question: "Question", answer: "Answer", siteName: "Website name",
-        siteDescription: "Website description", contactEmail: "Contact email", contactPhone: "Contact phone", location: "Address",
+        name: "Name", nameEnglish: "Name (English)", sectionName: "Section name", sectionKey: "Linked content type", slug: "Slug", status: "Status",
+        notTranslated: "Not available in English yet.",
+        titleEnglish: "Title (English)", subtitleEnglish: "Subtitle (English)", descriptionEnglish: "Description (English)",
+        published: "Published", draft: "Draft", shortDescription: "Short description", shortDescriptionEnglish: "Short description (English)",
+        category: "Category", categoryEnglish: "Category (English)", projectUrl: "Project URL",
+        icon: "Icon", role: "Role", roleEnglish: "Role (English)", bio: "Bio", bioEnglish: "Bio (English)",
+        instagram: "Instagram URL", linkedin: "LinkedIn URL", twitter: "X / Twitter URL",
+        testimonialText: "Testimonial", testimonialTextEnglish: "Testimonial (English)", rating: "Rating (1–5)",
+        question: "Question", questionEnglish: "Question (English)", answer: "Answer", answerEnglish: "Answer (English)", siteName: "Website name",
+        siteNameEnglish: "Website name (English)", siteDescription: "Website description", siteDescriptionEnglish: "Website description (English)",
+        contactEmail: "Contact email", contactPhone: "Contact phone", location: "Address", locationEnglish: "Address (English)",
         visitorCount: "Visitor count (manual)", cancel: "Cancel", saveItem: "Save", newItem: "Add item", editItem: "Edit item",
         sectionKinds: "None", about: "About", sectionServices: "Services", sectionProjects: "Projects", sectionTeam: "Team",
         sectionTestimonials: "Testimonials", sectionFaq: "FAQ", sectionContact: "Contact",
@@ -102,8 +114,11 @@ const entityConfig = {
     sections: {
         title: "contentSections", description: "editSections", singular: "navSections",
         fields: [
-            { key: "name", label: "sectionName" }, { key: "title", label: "title" },
-            { key: "subtitle", label: "subtitle" }, { key: "description", label: "description", type: "textarea", full: true },
+            { key: "name", label: "sectionName" }, { key: "nameEn", label: "nameEnglish" },
+            { key: "title", label: "title" }, { key: "titleEn", label: "titleEnglish" },
+            { key: "subtitle", label: "subtitle" }, { key: "subtitleEn", label: "subtitleEnglish" },
+            { key: "description", label: "description", type: "textarea", full: true },
+            { key: "descriptionEn", label: "descriptionEnglish", type: "textarea", full: true },
             { key: "image", label: "image", type: "url" },
             { key: "sectionKey", label: "sectionKey", type: "select", options: ["", "about", "services", "projects", "teamMembers", "testimonials", "faq", "contact"], full: true },
             { key: "visible", label: "visible", type: "checkbox" }
@@ -112,25 +127,30 @@ const entityConfig = {
     pages: {
         title: "pagesTitle", description: "pagesDescription", singular: "navPages",
         fields: [
-            { key: "title", label: "title" }, { key: "slug", label: "slug" },
-            { key: "description", label: "description", type: "textarea", full: true }, { key: "visible", label: "visible", type: "checkbox" }
+            { key: "title", label: "title" }, { key: "titleEn", label: "titleEnglish" }, { key: "slug", label: "slug" },
+            { key: "description", label: "description", type: "textarea", full: true },
+            { key: "descriptionEn", label: "descriptionEnglish", type: "textarea", full: true }, { key: "visible", label: "visible", type: "checkbox" }
         ]
     },
     services: {
         title: "servicesTitle", description: "servicesDescription", singular: "navServices",
         fields: [
-            { key: "title", label: "title" }, { key: "icon", label: "icon" },
+            { key: "title", label: "title" }, { key: "titleEn", label: "titleEnglish" }, { key: "icon", label: "icon" },
             { key: "description", label: "description", type: "textarea", full: true },
+            { key: "descriptionEn", label: "descriptionEnglish", type: "textarea", full: true },
             { key: "image", label: "image", type: "url" }, { key: "visible", label: "visible", type: "checkbox" }
         ]
     },
     projects: {
         title: "projectsTitle", description: "projectsDescription", singular: "navProjects",
         fields: [
-            { key: "title", label: "title" }, { key: "category", label: "category" },
+            { key: "title", label: "title" }, { key: "titleEn", label: "titleEnglish" },
+            { key: "category", label: "category" }, { key: "categoryEn", label: "categoryEnglish" },
             { key: "image", label: "image", type: "url" }, { key: "url", label: "projectUrl", type: "url" },
             { key: "shortDescription", label: "shortDescription", type: "textarea", full: true },
+            { key: "shortDescriptionEn", label: "shortDescriptionEnglish", type: "textarea", full: true },
             { key: "description", label: "description", type: "textarea", full: true },
+            { key: "descriptionEn", label: "descriptionEnglish", type: "textarea", full: true },
             { key: "status", label: "projectPublished", type: "select", options: ["published", "draft"] },
             { key: "visible", label: "visible", type: "checkbox" }
         ]
@@ -138,8 +158,10 @@ const entityConfig = {
     teamMembers: {
         title: "teamTitle", description: "teamDescription", singular: "navTeam",
         fields: [
-            { key: "name", label: "name" }, { key: "role", label: "role" },
+            { key: "name", label: "name" }, { key: "nameEn", label: "nameEnglish" },
+            { key: "role", label: "role" }, { key: "roleEn", label: "roleEnglish" },
             { key: "image", label: "image", type: "url" }, { key: "bio", label: "bio", type: "textarea", full: true },
+            { key: "bioEn", label: "bioEnglish", type: "textarea", full: true },
             { key: "social.instagram", label: "instagram", type: "url" }, { key: "social.linkedin", label: "linkedin", type: "url" },
             { key: "social.twitter", label: "twitter", type: "url" }, { key: "visible", label: "visible", type: "checkbox" }
         ]
@@ -147,8 +169,9 @@ const entityConfig = {
     testimonials: {
         title: "testimonialsTitle", description: "testimonialsDescription", singular: "navTestimonials",
         fields: [
-            { key: "name", label: "name" }, { key: "image", label: "image", type: "url" },
+            { key: "name", label: "name" }, { key: "nameEn", label: "nameEnglish" }, { key: "image", label: "image", type: "url" },
             { key: "text", label: "testimonialText", type: "textarea", full: true },
+            { key: "textEn", label: "testimonialTextEnglish", type: "textarea", full: true },
             { key: "rating", label: "rating", type: "number", min: 1, max: 5 }, { key: "visible", label: "visible", type: "checkbox" }
         ]
     },
@@ -156,7 +179,9 @@ const entityConfig = {
         title: "faqTitle", description: "faqDescription", singular: "navFaq",
         fields: [
             { key: "question", label: "question", type: "textarea", full: true },
-            { key: "answer", label: "answer", type: "textarea", full: true }, { key: "visible", label: "visible", type: "checkbox" }
+            { key: "questionEn", label: "questionEnglish", type: "textarea", full: true },
+            { key: "answer", label: "answer", type: "textarea", full: true },
+            { key: "answerEn", label: "answerEnglish", type: "textarea", full: true }, { key: "visible", label: "visible", type: "checkbox" }
         ]
     }
 };
@@ -189,7 +214,7 @@ let savePromise = null;
 let pendingSaveAfterLogin = false;
 
 function t(key) {
-    return translations[state.locale][key] || translations.ar[key] || key;
+    return translations[state.locale][key] || (state.locale === "ar" ? translations.en[key] : key) || key;
 }
 
 function escapeHtml(value) {
@@ -198,8 +223,28 @@ function escapeHtml(value) {
     })[character]);
 }
 
+function containsArabic(value) {
+    return /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/.test(String(value));
+}
+
 function text(value) {
-    return escapeHtml(value == null || value === "" ? t("unknown") : value);
+    if (value == null || value === "") return escapeHtml(t("unknown"));
+    if (state.locale === "en" && containsArabic(value)) {
+        return escapeHtml(t("notTranslated"));
+    }
+    return escapeHtml(value);
+}
+
+function editorValue(value) {
+    return state.locale === "en" && containsArabic(value) ? "" : value || "";
+}
+
+function errorMessage(error) {
+    return state.locale === "en" && containsArabic(error && error.message) ? "" : error && error.message || "";
+}
+
+function localizedField(item, key) {
+    return item[state.locale === "en" ? key + "En" : key];
 }
 
 function getFieldValue(item, path) {
@@ -241,8 +286,8 @@ function updateLocale() {
         if (element.dataset.i18nAttr) element.setAttribute(element.dataset.i18nAttr, t(key));
         else element.textContent = t(key);
     });
-    document.getElementById("languageToggle").textContent = state.locale === "ar" ? "EN" : "ع";
-    document.getElementById("languageToggle").setAttribute("aria-label", state.locale === "ar" ? "Switch to English" : "التبديل إلى العربية");
+    document.getElementById("languageToggle").textContent = state.locale === "ar" ? "EN" : "AR";
+    document.getElementById("languageToggle").setAttribute("aria-label", state.locale === "ar" ? "Switch to English" : "Switch to Arabic");
     renderView();
 }
 
@@ -313,8 +358,8 @@ function editorField(field, item) {
     }
     const type = field.type === "textarea" ? "textarea" : "input";
     const control = type === "textarea"
-        ? `<textarea class="field-control textarea" id="${controlId}" name="${escapeHtml(field.key)}" rows="4">${escapeHtml(value || "")}</textarea>`
-        : `<input class="field-control" id="${controlId}" name="${escapeHtml(field.key)}" type="${field.type === "number" ? "number" : field.type === "url" ? "text" : "text"}"${field.min ? ` min="${field.min}"` : ""}${field.max ? ` max="${field.max}"` : ""} value="${escapeHtml(value == null ? "" : value)}">`;
+        ? `<textarea class="field-control textarea" id="${controlId}" name="${escapeHtml(field.key)}" rows="4">${escapeHtml(editorValue(value))}</textarea>`
+        : `<input class="field-control" id="${controlId}" name="${escapeHtml(field.key)}" type="${field.type === "number" ? "number" : field.type === "url" ? "text" : "text"}"${field.min ? ` min="${field.min}"` : ""}${field.max ? ` max="${field.max}"` : ""} value="${escapeHtml(editorValue(value))}">`;
     return `<div class="form-field${field.full ? " full-width" : ""}"><label for="${controlId}">${escapeHtml(t(field.label))}</label>${control}</div>`;
 }
 
@@ -324,20 +369,24 @@ function editorMarkup(view) {
     const item = state.editingId === "__new__" ? { visible: true, order: collection(view).length + 1, rating: 5 } : collection(view).find((entry) => entry.id === state.editingId);
     if (!item) return "";
     const isNew = state.editingId === "__new__";
+    const englishFields = new Set(config.fields.filter((field) => field.key.endsWith("En")).map((field) => field.key.slice(0, -2)));
+    const fields = config.fields.filter((field) => state.locale === "en"
+        ? field.key.endsWith("En") || !englishFields.has(field.key)
+        : !field.key.endsWith("En"));
     return `<section class="editor-card" id="editorCard"><div class="editor-header"><div><h2>${escapeHtml(t(isNew ? "newItem" : "editItem"))} · ${escapeHtml(t(config.singular))}</h2><p>${escapeHtml(t(config.description))}</p></div><button class="icon-button" type="button" data-action="cancel-edit" aria-label="${escapeHtml(t("close"))}">×</button></div>
-        <form class="editor-form" id="entityForm" data-view="${view}" data-id="${isNew ? "__new__" : escapeHtml(item.id)}">${config.fields.map((field) => editorField(field, item)).join("")}
+        <form class="editor-form" id="entityForm" data-view="${view}" data-id="${isNew ? "__new__" : escapeHtml(item.id)}">${fields.map((field) => editorField(field, item)).join("")}
             <div class="editor-footer form-field full-width"><button class="button button-outline" type="button" data-action="cancel-edit">${escapeHtml(t("cancel"))}</button><button class="button button-primary" type="submit">${escapeHtml(t("saveItem"))}</button></div>
         </form></section>`;
 }
 
 function listColumns(view) {
-    if (view === "sections") return [{ label: "title", value: (item) => item.title || item.name }, { label: "subtitle", value: (item) => item.subtitle || item.description }];
-    if (view === "pages") return [{ label: "title", value: (item) => item.title }, { label: "slug", value: (item) => item.slug }, { label: "description", value: (item) => item.description }];
-    if (view === "services") return [{ label: "title", value: (item) => item.title }, { label: "description", value: (item) => item.description }, { label: "icon", value: (item) => item.icon }];
-    if (view === "projects") return [{ label: "title", value: (item) => item.title }, { label: "category", value: (item) => item.category }, { label: "projectPublished", value: (item) => t(item.status === "published" ? "published" : "draft") }];
-    if (view === "teamMembers") return [{ label: "name", value: (item) => item.name }, { label: "role", value: (item) => item.role }, { label: "bio", value: (item) => item.bio }];
-    if (view === "testimonials") return [{ label: "name", value: (item) => item.name }, { label: "testimonialText", value: (item) => item.text }, { label: "rating", value: (item) => `${item.rating || 5} / 5` }];
-    return [{ label: "question", value: (item) => item.question }, { label: "answer", value: (item) => item.answer }];
+    if (view === "sections") return [{ label: "title", value: (item) => localizedField(item, "title") || localizedField(item, "name") }, { label: "subtitle", value: (item) => localizedField(item, "subtitle") || localizedField(item, "description") }];
+    if (view === "pages") return [{ label: "title", value: (item) => localizedField(item, "title") }, { label: "slug", value: (item) => item.slug }, { label: "description", value: (item) => localizedField(item, "description") }];
+    if (view === "services") return [{ label: "title", value: (item) => localizedField(item, "title") }, { label: "description", value: (item) => localizedField(item, "description") }, { label: "icon", value: (item) => item.icon }];
+    if (view === "projects") return [{ label: "title", value: (item) => localizedField(item, "title") }, { label: "category", value: (item) => localizedField(item, "category") }, { label: "projectPublished", value: (item) => t(item.status === "published" ? "published" : "draft") }];
+    if (view === "teamMembers") return [{ label: "name", value: (item) => localizedField(item, "name") }, { label: "role", value: (item) => localizedField(item, "role") }, { label: "bio", value: (item) => localizedField(item, "bio") }];
+    if (view === "testimonials") return [{ label: "name", value: (item) => localizedField(item, "name") }, { label: "testimonialText", value: (item) => localizedField(item, "text") }, { label: "rating", value: (item) => `${item.rating || 5} / 5` }];
+    return [{ label: "question", value: (item) => localizedField(item, "question") }, { label: "answer", value: (item) => localizedField(item, "answer") }];
 }
 
 function renderEntityList(view) {
@@ -387,19 +436,21 @@ function renderMessages() {
 
 function renderSettings() {
     const settings = state.draft.settings;
+    const english = state.locale === "en";
     const fields = [
-        { key: "siteName", type: "text" }, { key: "siteDescription", type: "textarea", full: true },
+        { key: english ? "siteNameEn" : "siteName", label: english ? "siteNameEnglish" : "siteName", type: "text" },
+        { key: english ? "siteDescriptionEn" : "siteDescription", label: english ? "siteDescriptionEnglish" : "siteDescription", type: "textarea", full: true },
         { key: "contactEmail", type: "email" }, { key: "contactPhone", type: "tel" },
-        { key: "location", type: "text" }, { key: "visitorCount", type: "number" }
+        { key: english ? "locationEn" : "location", label: english ? "locationEnglish" : "location", type: "text" }, { key: "visitorCount", type: "number" }
     ];
     return `${pageHeading("settingsTitle", "settingsDescription", `<button class="button button-outline" type="button" data-action="export">${escapeHtml(t("exportJson"))}</button>`)}
         <section class="editor-card"><form id="settingsForm" class="editor-form">${fields.map((field) => {
             const id = `setting-${field.key}`;
-            const value = settings[field.key] == null ? "" : settings[field.key];
+            const value = editorValue(settings[field.key]);
             const control = field.type === "textarea"
                 ? `<textarea class="field-control textarea" id="${id}" name="${field.key}" rows="4">${escapeHtml(value)}</textarea>`
                 : `<input class="field-control" id="${id}" name="${field.key}" type="${field.type}" value="${escapeHtml(value)}"${field.key === "visitorCount" ? ' min="0"' : ""}>`;
-            return `<div class="form-field${field.full ? " full-width" : ""}"><label for="${id}">${escapeHtml(t(field.key))}</label>${control}</div>`;
+            return `<div class="form-field${field.full ? " full-width" : ""}"><label for="${id}">${escapeHtml(t(field.label || field.key))}</label>${control}</div>`;
         }).join("")}<div class="editor-footer form-field full-width"><button class="button button-primary" type="submit">${escapeHtml(t("saveSettings"))}</button></div></form></section>`;
 }
 
@@ -488,7 +539,7 @@ async function saveDraftNow() {
         }
         console.error("Draft save failed.", error);
         setSaveStatus("error", "saveError");
-        showNotice(`${t("saveFailed")} ${error.message || ""}`, "error", true);
+        showNotice(`${t("saveFailed")} ${errorMessage(error)}`.trim(), "error", true);
         saveButton.disabled = false;
     } finally {
         savePromise = null;
@@ -657,7 +708,7 @@ logoutButton.addEventListener("click", async () => {
         await initialize();
     } catch (error) {
         console.error("Dashboard logout failed.", error);
-        showNotice(`${t("loginUnavailable")} ${error.message || ""}`, "error", true);
+        showNotice(`${t("loginUnavailable")} ${errorMessage(error)}`.trim(), "error", true);
         logoutButton.disabled = false;
     }
 });
@@ -731,7 +782,7 @@ async function initialize() {
         revision = 0;
         savedRevision = 0;
         setSaveStatus("error", "saveError");
-        showNotice(`${t("loadFailed")} ${error.message || ""}`, "error", true);
+        showNotice(`${t("loadFailed")} ${errorMessage(error)}`.trim(), "error", true);
     }
     saveButton.disabled = false;
     renderView();

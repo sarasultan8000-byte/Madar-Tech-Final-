@@ -122,7 +122,7 @@ const translations = {
         "nav.book": "Get in touch",
         "nav.menuOpen": "Open menu",
         "nav.menuClose": "Close menu",
-        "nav.switchLanguage": "التبديل إلى العربية",
+        "nav.switchLanguage": "Switch to Arabic",
         "nav.darkMode": "Switch to dark mode",
         "nav.lightMode": "Switch to light mode",
         "hero.eyebrow": "Madar Tech — a space to learn and grow",
@@ -241,8 +241,14 @@ let revealObserver = null;
 
 function localizedValue(item, key) {
     if (!item || typeof item !== "object") return undefined;
-    const englishValue = item[key + "En"];
-    if (locale === "en" && typeof englishValue === "string") return englishValue;
+    if (locale === "en") {
+        const englishValue = item[key + "En"];
+        return typeof englishValue === "string"
+            && englishValue.trim()
+            && !/[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/.test(englishValue)
+            ? englishValue
+            : undefined;
+    }
     return typeof item[key] === "string" ? item[key] : undefined;
 }
 
@@ -264,7 +270,7 @@ function isLocalContentVisible(item) {
 
 function projectLocalDraft(draft) {
     const sectionFields = [
-        "id", "sectionKey", "name", "title", "titleEn", "subtitle", "subtitleEn",
+        "id", "sectionKey", "name", "nameEn", "title", "titleEn", "subtitle", "subtitleEn",
         "description", "descriptionEn", "image", "order"
     ];
     const sectionList = Array.isArray(draft.sections)
@@ -361,6 +367,8 @@ function createPublicCard(item, type) {
     const card = createElement("article", "service-card cms-public-card");
     const imageUrl = safeUrl(item.image);
     const title = localizedValue(item, "title") || localizedValue(item, "name") || "";
+    const category = localizedValue(item, "category");
+    const role = localizedValue(item, "role");
     const description = type === "projects"
         ? localizedValue(item, "shortDescription") || localizedValue(item, "description")
         : type === "teamMembers"
@@ -368,6 +376,8 @@ function createPublicCard(item, type) {
             : type === "testimonials"
                 ? localizedValue(item, "text")
                 : localizedValue(item, "description");
+
+    if (locale === "en" && !title && !category && !role && !description) return null;
 
     if (type === "services" && item.icon) {
         card.append(createElement("span", "card-icon", item.icon));
@@ -379,12 +389,12 @@ function createPublicCard(item, type) {
         image.loading = "lazy";
         card.append(image);
     }
-    if (type === "projects" && localizedValue(item, "category")) {
-        card.append(createElement("span", "cms-public-card-category", localizedValue(item, "category")));
+    if (type === "projects" && category) {
+        card.append(createElement("span", "cms-public-card-category", category));
     }
     if (title) card.append(createElement("h3", "", title));
-    if (type === "teamMembers" && localizedValue(item, "role")) {
-        card.append(createElement("p", "cms-public-card-role", localizedValue(item, "role")));
+    if (type === "teamMembers" && role) {
+        card.append(createElement("p", "cms-public-card-role", role));
     }
     if (description) card.append(createElement("p", "", description));
     if (type === "projects") {
@@ -404,9 +414,12 @@ function renderFaqItems(container, items) {
     const fragment = document.createDocumentFragment();
     sortByOrder(items).forEach((item, index) => {
         const details = createElement("details", "faq-item");
+        const question = localizedValue(item, "question");
+        const answer = localizedValue(item, "answer");
+        if (locale === "en" && !question && !answer) return;
         if (index === 0) details.open = true;
-        details.append(createElement("summary", "", localizedValue(item, "question") || ""));
-        details.append(createElement("p", "", localizedValue(item, "answer") || ""));
+        details.append(createElement("summary", "", question || ""));
+        details.append(createElement("p", "", answer || ""));
         fragment.append(details);
     });
     container.replaceChildren(fragment);
@@ -419,52 +432,119 @@ function renderServices(items) {
     const fragment = document.createDocumentFragment();
     sortByOrder(items).forEach((item) => {
         const column = createElement("div", "col-sm-6 col-lg-3");
-        column.append(createPublicCard(item, "services"));
-        fragment.append(column);
+        const card = createPublicCard(item, "services");
+        if (card) {
+            column.append(card);
+            fragment.append(column);
+        }
     });
     grid.replaceChildren(fragment);
     observeRevealElements(grid);
 }
 
+const managedSectionIds = ["about", "services", "contact", "faq"];
+const managedSectionElements = new Map();
+const managedSectionSlots = new Map();
+let customSectionSlots = [];
+
+function ensureManagedSectionSlots() {
+    if (managedSectionSlots.size) return;
+    managedSectionIds.forEach((id) => {
+        const element = document.getElementById(id);
+        if (!element || !element.parentNode) return;
+        const slot = document.createComment("managed-section-slot");
+        element.parentNode.insertBefore(slot, element);
+        managedSectionElements.set(id, element);
+        managedSectionSlots.set(id, slot);
+    });
+}
+
+function createCustomSection(section) {
+    const sectionElement = createElement("section", "section section-light cms-public-section");
+    sectionElement.id = "cms-section-" + String(section.id || section.sectionKey || "custom").replace(/[^a-zA-Z0-9_-]/g, "-");
+    sectionElement.dataset.contentKey = section.sectionKey || "";
+    sectionElement.hidden = !isPubliclyVisible(section);
+    const container = createElement("div", "container");
+    const heading = createElement("div", "section-heading");
+    const subtitle = localizedValue(section, "subtitle");
+    const title = localizedValue(section, "title") || localizedValue(section, "name");
+    const description = localizedValue(section, "description");
+    if (subtitle) heading.append(createElement("span", "eyebrow", subtitle));
+    if (title) heading.append(createElement("h2", "", title));
+    if (description) heading.append(createElement("p", "", description));
+    container.append(heading);
+
+    const key = section.sectionKey;
+    if (key === "faq" && Array.isArray(publishedContent.faq)) {
+        const list = createElement("div", "faq-list");
+        renderFaqItems(list, publishedContent.faq);
+        if (list.childElementCount) container.append(list);
+    } else {
+        const items = Array.isArray(publishedContent[key]) ? publishedContent[key] : [];
+        const grid = createElement("div", "cms-public-grid");
+        items.forEach((item) => {
+            const card = createPublicCard(item, key);
+            if (card) grid.append(card);
+        });
+        if (grid.childElementCount) container.append(grid);
+    }
+
+    if (locale === "en" && !heading.childElementCount && !container.querySelector(".cms-public-grid, .faq-list") && !section.image) {
+        sectionElement.hidden = true;
+    }
+    sectionElement.append(container);
+    return sectionElement;
+}
+
 function renderCustomSections() {
     const host = document.getElementById("cmsSections");
     if (!host || !Array.isArray(publishedContent.sections)) return;
-    const fixedIds = new Set(["about", "services", "contact", "faq"]);
-    const fixedKeys = new Set(["about", "services", "contact", "faq"]);
-    const fragment = document.createDocumentFragment();
+    ensureManagedSectionSlots();
 
+    const fixedSectionFor = new Map();
+    const entries = [];
+    const customSections = [];
+    const usedFixedIds = new Set();
     sortByOrder(publishedContent.sections).forEach((section) => {
-        if (fixedIds.has(section.id) || fixedKeys.has(section.sectionKey) || !isPubliclyVisible(section)) return;
-        const sectionElement = createElement("section", "section section-light cms-public-section");
-        sectionElement.id = "cms-section-" + String(section.id || section.sectionKey || "custom").replace(/[^a-zA-Z0-9_-]/g, "-");
-        sectionElement.dataset.contentKey = section.sectionKey || "";
-        const container = createElement("div", "container");
-        const heading = createElement("div", "section-heading");
-        const subtitle = localizedValue(section, "subtitle");
-        const title = localizedValue(section, "title") || localizedValue(section, "name");
-        const description = localizedValue(section, "description");
-        if (subtitle) heading.append(createElement("span", "eyebrow", subtitle));
-        if (title) heading.append(createElement("h2", "", title));
-        if (description) heading.append(createElement("p", "", description));
-        container.append(heading);
-
-        const key = section.sectionKey;
-        if (key === "faq" && Array.isArray(publishedContent.faq)) {
-            const list = createElement("div", "faq-list");
-            renderFaqItems(list, publishedContent.faq);
-            container.append(list);
-        } else {
-            const items = Array.isArray(publishedContent[key]) ? publishedContent[key] : [];
-            const grid = createElement("div", "cms-public-grid");
-            items.forEach((item) => grid.append(createPublicCard(item, key)));
-            container.append(grid);
+        let fixedId = managedSectionIds.includes(section.id) && !usedFixedIds.has(section.id) ? section.id : null;
+        if (!fixedId && managedSectionIds.includes(section.sectionKey) && !usedFixedIds.has(section.sectionKey)) {
+            fixedId = section.sectionKey;
         }
-
-        sectionElement.append(container);
-        fragment.append(sectionElement);
+        if (fixedId && managedSectionElements.has(fixedId)) {
+            usedFixedIds.add(fixedId);
+            fixedSectionFor.set(fixedId, section);
+            entries.push({ order: section.order, element: managedSectionElements.get(fixedId) });
+        } else {
+            customSections.push(section);
+            entries.push({ order: section.order, element: createCustomSection(section) });
+        }
     });
-    host.replaceChildren(fragment);
-    observeRevealElements(host);
+
+    managedSectionElements.forEach((element, id) => {
+        element.remove();
+        if (!fixedSectionFor.has(id)) {
+            element.hidden = true;
+            entries.push({ order: Number.POSITIVE_INFINITY, element });
+        }
+    });
+    document.querySelectorAll(".cms-public-section").forEach((element) => element.remove());
+    customSectionSlots.forEach((slot) => slot.remove());
+    customSectionSlots = customSections.map(() => {
+        const slot = document.createComment("custom-section-slot");
+        host.append(slot);
+        return slot;
+    });
+
+    const slots = [...managedSectionSlots.values(), ...customSectionSlots];
+    slots.sort((first, second) => first === second
+        ? 0
+        : first.compareDocumentPosition(second) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1);
+    entries.sort((first, second) => first.order - second.order);
+    entries.forEach((entry, index) => {
+        const slot = slots[index];
+        slot.parentNode.insertBefore(entry.element, slot);
+        if (entry.element.classList.contains("cms-public-section")) observeRevealElements(entry.element);
+    });
 }
 
 function applyPublishedContent() {
@@ -596,7 +676,7 @@ function applyLocale() {
         }
     });
 
-    languageToggle.textContent = locale === "ar" ? "EN" : "ع";
+    languageToggle.textContent = locale === "ar" ? "EN" : "AR";
     languageToggle.setAttribute("aria-label", copy["nav.switchLanguage"]);
     menuBtn.setAttribute("aria-label", copy[menuBtn.getAttribute("aria-expanded") === "true" ? "nav.menuClose" : "nav.menuOpen"]);
     document.querySelector(".scroll-cue").setAttribute("aria-label", copy["hero.scroll"]);
