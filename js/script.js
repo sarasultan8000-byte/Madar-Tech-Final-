@@ -231,11 +231,13 @@ const contactForm = document.getElementById("contactForm");
 const newsletterForm = document.getElementById("newsletterForm");
 const root = document.documentElement;
 const metaDescription = document.querySelector('meta[name="description"]');
-const localDraftKey = "madar-tech-dashboard-draft";
+const siteContentEndpoint = "/api/site";
 
 let locale = localStorage.getItem("madar-locale") === "en" ? "en" : "ar";
 let isDark = localStorage.getItem("madar-theme") === "dark";
 let publishedContent = null;
+let publishedUpdatedAt = null;
+let siteRefreshInProgress = false;
 let publicContactEmail = "madartech1@gmail.com";
 let revealObserver = null;
 
@@ -617,41 +619,34 @@ function applyPublishedContent() {
     renderCustomSections();
 }
 
-function loadPublishedContent() {
-    let serialized;
+async function loadPublishedContent() {
+    if (siteRefreshInProgress) return;
+    siteRefreshInProgress = true;
     try {
-        serialized = localStorage.getItem(localDraftKey);
-    } catch (error) {
-        console.error("Could not read the local dashboard draft.", error);
-        return;
-    }
-    if (!serialized) return;
-    try {
-        const draft = JSON.parse(serialized);
-        if (!draft || typeof draft !== "object" || Array.isArray(draft)) {
-            throw new Error("The local dashboard draft must be a JSON object.");
+        const response = await fetch(siteContentEndpoint, {
+            headers: { "Accept": "application/json" },
+            cache: "no-store",
+            credentials: "same-origin"
+        });
+        if (!response.ok) throw new Error(`Homepage content request failed (HTTP ${response.status}).`);
+        const result = await response.json();
+        if (result.updatedAt === publishedUpdatedAt) return;
+        if (result.draft !== null && (!result.draft || typeof result.draft !== "object" || Array.isArray(result.draft))) {
+            throw new Error("The site API returned an invalid draft.");
         }
-        publishedContent = projectLocalDraft(draft);
+        publishedUpdatedAt = result.updatedAt;
+        publishedContent = result.draft ? projectLocalDraft(result.draft) : null;
         applyPublishedContent();
     } catch (error) {
-        console.error("Could not parse the local dashboard draft; keeping the static homepage content.", error);
+        console.error("Could not load shared homepage content from the site API.", error);
+    } finally {
+        siteRefreshInProgress = false;
     }
 }
 
-window.addEventListener("storage", function (event) {
-    if (event.key !== localDraftKey) return;
-    if (event.newValue === null) {
-        window.location.reload();
-        return;
-    }
-    try {
-        const draft = JSON.parse(event.newValue);
-        publishedContent = projectLocalDraft(draft);
-        applyPublishedContent();
-    } catch (error) {
-        console.error("Could not parse the updated local dashboard draft.", error);
-    }
-});
+window.setInterval(() => {
+    if (!document.hidden) loadPublishedContent();
+}, 3000);
 
 function applyLocale() {
     const copy = translations[locale];

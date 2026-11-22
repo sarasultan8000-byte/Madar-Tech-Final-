@@ -93,6 +93,7 @@ test("setup creates a verifiable admin password and requires explicit reset", ()
         const firstContents = readFileSync(envPath, "utf8");
         const firstPassword = firstRun.stdout.match(/كلمة مرور لوحة التحكم \(احفظها الآن\): ([\w-]+)/)?.[1];
         assert.ok(firstPassword);
+        assert.notEqual(firstPassword, password, "setup must not use the test password");
         const firstSalt = firstContents.match(/^ADMIN_PASSWORD_SALT=([\da-f]+)$/m)?.[1];
         const firstHash = firstContents.match(/^ADMIN_PASSWORD_HASH=([\da-f]+)$/m)?.[1];
         assert.equal(scryptSync(firstPassword, Buffer.from(firstSalt, "hex"), 64).toString("hex"), firstHash);
@@ -111,7 +112,7 @@ test("setup creates a verifiable admin password and requires explicit reset", ()
     }
 });
 
-test("the protected draft API accepts PUT and persists data across server restarts", async () => {
+test("the SQLite site API protects edits, serves public content, supports CRUD, and persists across restarts", async () => {
     const dataDirectory = mkdtempSync(path.join(os.tmpdir(), "madar-tech-persistence-"));
     let child;
     try {
@@ -139,12 +140,56 @@ test("the protected draft API accepts PUT and persists data across server restar
         const initialRead = await fetch(`${baseUrl}/api/draft`, { headers: { Cookie: cookie } });
         assert.equal(initialRead.status, 200);
         assert.deepEqual(await initialRead.json(), { draft: null, updatedAt: null });
+        assert.deepEqual(await (await fetch(`${baseUrl}/api/site`)).json(), { draft: null, updatedAt: null });
+
+        const guestWrites = [
+            {
+                url: `${baseUrl}/api/draft`,
+                method: "PUT",
+                body: JSON.stringify({ sections: [] })
+            },
+            {
+                url: `${baseUrl}/api/content/services`,
+                method: "POST",
+                body: JSON.stringify({ id: "guest-service", title: "Not authorized" })
+            },
+            {
+                url: `${baseUrl}/api/content/services/guest-service`,
+                method: "PUT",
+                body: JSON.stringify({ title: "Not authorized" })
+            },
+            {
+                url: `${baseUrl}/api/content/services/guest-service`,
+                method: "DELETE"
+            }
+        ];
+        for (const guestWrite of guestWrites) {
+            const response = await fetch(guestWrite.url, {
+                method: guestWrite.method,
+                headers: {
+                    ...(guestWrite.body ? { "Content-Type": "application/json" } : {}),
+                    Origin: baseUrl
+                },
+                ...(guestWrite.body ? { body: guestWrite.body } : {})
+            });
+            assert.equal(response.status, 401, `guest ${guestWrite.method} must not modify site content`);
+        }
+        assert.deepEqual(await (await fetch(`${baseUrl}/api/site`)).json(), { draft: null, updatedAt: null });
 
         const draft = {
             version: 2,
             sections: [{ id: "about", title: "Madar Tech", visible: false, order: 1 }],
-            settings: { siteName: "Persistent Madar Tech" }
+            settings: { siteName: "Persistent Madar Tech", visitorCount: 15 },
+            messages: [{ id: "private-message", message: "Private content" }]
         };
+        const initializeDraft = await fetch(`${baseUrl}/api/draft`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Cookie: cookie, Origin: baseUrl },
+            body: JSON.stringify(draft)
+        });
+        assert.equal(initializeDraft.status, 201);
+        assert.equal((await initializeDraft.json()).created, true);
+
         const save = await fetch(`${baseUrl}/api/draft`, {
             method: "PUT",
             headers: { "Content-Type": "application/json", Cookie: cookie, Origin: baseUrl },
@@ -155,12 +200,72 @@ test("the protected draft API accepts PUT and persists data across server restar
         assert.deepEqual(savedBody.draft, draft);
         assert.ok(savedBody.updatedAt);
 
-        const unsupportedMethod = await fetch(`${baseUrl}/api/draft`, {
+        const duplicateInitialization = await fetch(`${baseUrl}/api/draft`, {
             method: "POST",
+            headers: { "Content-Type": "application/json", Cookie: cookie, Origin: baseUrl },
+            body: JSON.stringify({ ...draft, settings: { siteName: "Stale browser copy" } })
+        });
+        assert.equal(duplicateInitialization.status, 200);
+        const existingDraft = await duplicateInitialization.json();
+        assert.equal(existingDraft.created, false);
+        assert.equal(existingDraft.draft.settings.siteName, "Persistent Madar Tech");
+
+        const publicSiteResponse = await fetch(`${baseUrl}/api/site`);
+        assert.equal(publicSiteResponse.status, 200);
+        assert.equal(publicSiteResponse.headers.get("cache-control"), "no-store");
+        const publicSite = await publicSiteResponse.json();
+        assert.equal(publicSite.draft.settings.visitorCount, undefined);
+        assert.equal(publicSite.draft.messages, undefined);
+        assert.deepEqual(publicSite.draft.sections, [], "hidden sections must not be exposed publicly");
+
+        assert.equal((await fetch(`${baseUrl}/api/content/services`)).status, 401);
+        const createService = await fetch(`${baseUrl}/api/content/services`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Cookie: cookie, Origin: baseUrl },
+            body: JSON.stringify({ id: "shared-service", title: "Shared service", visible: true })
+        });
+        assert.equal(createService.status, 201);
+        assert.equal((await createService.json()).item.title, "Shared service");
+        const readService = await fetch(`${baseUrl}/api/content/services/shared-service`, { headers: { Cookie: cookie } });
+        assert.equal(readService.status, 200);
+        assert.equal((await readService.json()).item.title, "Shared service");
+
+        const updateService = await fetch(`${baseUrl}/api/content/services/shared-service`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json", Cookie: cookie, Origin: baseUrl },
+            body: JSON.stringify({ title: "Updated service", visible: true })
+        });
+        assert.equal(updateService.status, 200);
+        assert.equal((await updateService.json()).item.title, "Updated service");
+
+        const createToDelete = await fetch(`${baseUrl}/api/content/services/remove-me`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Cookie: cookie, Origin: baseUrl },
+            body: JSON.stringify({ id: "remove-me", title: "Temporary" })
+        });
+        assert.equal(createToDelete.status, 404);
+        const secondService = await fetch(`${baseUrl}/api/content/services`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Cookie: cookie, Origin: baseUrl },
+            body: JSON.stringify({ id: "remove-me", title: "Temporary" })
+        });
+        assert.equal(secondService.status, 201);
+        const deleteService = await fetch(`${baseUrl}/api/content/services/remove-me`, {
+            method: "DELETE",
+            headers: { Cookie: cookie, Origin: baseUrl }
+        });
+        assert.equal(deleteService.status, 200);
+        assert.equal((await deleteService.json()).deleted, true);
+
+        const listedServices = await fetch(`${baseUrl}/api/content/services`, { headers: { Cookie: cookie } });
+        assert.equal((await listedServices.json()).items[0].title, "Updated service");
+
+        const unsupportedMethod = await fetch(`${baseUrl}/api/draft`, {
+            method: "PATCH",
             headers: { Cookie: cookie, Origin: baseUrl }
         });
         assert.equal(unsupportedMethod.status, 405);
-        assert.equal(unsupportedMethod.headers.get("allow"), "GET, PUT");
+        assert.equal(unsupportedMethod.headers.get("allow"), "GET, POST, PUT");
         assert.equal((await fetch(`${baseUrl}/data/madar-tech.sqlite`)).status, 404);
 
         await stopServer(child);
@@ -171,7 +276,14 @@ test("the protected draft API accepts PUT and persists data across server restar
         const newCookie = await login(server.baseUrl);
         const reload = await fetch(`${server.baseUrl}/api/draft`, { headers: { Cookie: newCookie } });
         assert.equal(reload.status, 200);
-        assert.deepEqual((await reload.json()).draft, draft);
+        assert.deepEqual((await reload.json()).draft, {
+            ...draft,
+            services: [{ id: "shared-service", title: "Updated service", visible: true }]
+        });
+        const reloadedSite = await (await fetch(`${server.baseUrl}/api/site`)).json();
+        assert.deepEqual(reloadedSite.draft.sections, []);
+        const reloadedServices = await fetch(`${server.baseUrl}/api/content/services`, { headers: { Cookie: newCookie } });
+        assert.equal((await reloadedServices.json()).items[0].title, "Updated service");
 
         const logout = await fetch(`${server.baseUrl}/api/auth/logout`, {
             method: "POST",

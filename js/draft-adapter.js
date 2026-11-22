@@ -1,7 +1,7 @@
 const DRAFT_ENDPOINT = "/api/draft";
 const LOGIN_ENDPOINT = "/api/auth/login";
 const LOGOUT_ENDPOINT = "/api/auth/logout";
-const LOCAL_DRAFT_KEY = "madar-tech-dashboard-draft";
+const LOCAL_DRAFT_KEYS = ["madar-tech-homepage-v1", "madar-tech-dashboard-draft"];
 
 const starterSections = [
     { id: "about", name: "من نحن", nameEn: "About us", sectionKey: "about", title: "من نحن", titleEn: "About us", subtitle: "نتعلم اليوم لنصنع فرص الغد.", subtitleEn: "Learn today. Create opportunities for tomorrow.", description: "مدار تك مساحة للتعلم والتدريب وتطوير المهارات وصناعة الفرص.", descriptionEn: "Madar Tech is a space for learning, training, skill development, and creating opportunities.", image: "images/imag4.jpeg", visible: true, order: 1 },
@@ -212,45 +212,63 @@ async function requestDraft(method, body) {
 }
 
 function readLocalDraft() {
-    let serialized;
     try {
-        serialized = localStorage.getItem(LOCAL_DRAFT_KEY);
+        for (const key of LOCAL_DRAFT_KEYS) {
+            const serialized = localStorage.getItem(key);
+            if (serialized !== null) {
+                const draft = JSON.parse(serialized);
+                if (!isRecord(draft)) throw new Error("invalid shape");
+                return draft;
+            }
+        }
     } catch (error) {
+        if (error instanceof SyntaxError || error.message === "invalid shape") {
+            throw new Error("بيانات المسودة المحلية ليست كائن JSON صالحاً. استعد نسخة صحيحة قبل المتابعة.");
+        }
         throw new Error(`تعذّر قراءة المسودة المحلية: ${error.message}`);
     }
-    if (serialized === null) return null;
-    try {
-        const draft = JSON.parse(serialized);
-        if (!isRecord(draft)) throw new Error("invalid shape");
-        return draft;
-    } catch {
-        throw new Error("بيانات المسودة المحلية ليست كائن JSON صالحاً. استعد نسخة صحيحة قبل المتابعة.");
-    }
-}
-
-function writeLocalDraft(draft) {
-    try {
-        localStorage.setItem(LOCAL_DRAFT_KEY, JSON.stringify(draft));
-    } catch (error) {
-        throw new Error(`تعذّر حفظ المسودة في هذا المتصفح: ${error.message}`);
-    }
+    return null;
 }
 
 export async function loadDraft() {
-    const localDraft = readLocalDraft();
-    if (localDraft !== null) return migrateDraft(localDraft);
-
     const result = await requestDraft("GET");
-    const draft = isRecord(result) && isRecord(result.draft) ? result.draft : result;
+    const draft = isRecord(result) && Object.hasOwn(result, "draft") ? result.draft : result;
+    if (draft === null) {
+        const localDraft = readLocalDraft();
+        if (localDraft === null) return createEmptyDraft();
+        const migrated = migrateDraft(localDraft);
+        const saved = await requestDraft("POST", migrated);
+        return isRecord(saved) && isRecord(saved.draft) ? saved.draft : migrated;
+    }
     const normalized = migrateDraft(draft);
-    writeLocalDraft(normalized);
     return normalized;
 }
 
 export async function saveDraft(draft) {
     const normalized = migrateDraft(draft);
-    writeLocalDraft(normalized);
-    return normalized;
+    const result = await requestDraft("PUT", normalized);
+    return isRecord(result) && isRecord(result.draft) ? result.draft : normalized;
+}
+
+export function normalizeDraft(draft) {
+    return migrateDraft(draft);
+}
+
+export async function listContent(collection) {
+    const result = await requestJson(`/api/content/${encodeURIComponent(collection)}`, "GET");
+    return result.items;
+}
+
+export async function createContent(collection, item) {
+    return requestJson(`/api/content/${encodeURIComponent(collection)}`, "POST", item);
+}
+
+export async function updateContent(collection, id, item) {
+    return requestJson(`/api/content/${encodeURIComponent(collection)}/${encodeURIComponent(id)}`, "PUT", item);
+}
+
+export async function deleteContent(collection, id) {
+    return requestJson(`/api/content/${encodeURIComponent(collection)}/${encodeURIComponent(id)}`, "DELETE");
 }
 
 export function createEmptyDraft() {

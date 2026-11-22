@@ -7,8 +7,10 @@ import { fileURLToPath } from "node:url";
 import path from "node:path";
 
 const root = path.dirname(fileURLToPath(import.meta.url));
-const host = process.env.HOST || "127.0.0.1";
+const host = process.env.HOST || "0.0.0.0";
 const port = Number(process.env.PORT) || 3000;
+const maxDraftBytes = 2 * 1024 * 1024;
+const editableCollections = new Set(["sections", "pages", "services", "projects", "teamMembers", "testimonials", "faq", "messages"]);
 const sessionLifetimeMs = 8 * 60 * 60 * 1000;
 const sessionCookie = "madar_session";
 const passwordSaltText = process.env.ADMIN_PASSWORD_SALT || "";
@@ -43,6 +45,59 @@ const writeDraft = database.prepare(`
         payload = excluded.payload,
         updated_at = excluded.updated_at
 `);
+
+function getStoredDraft() {
+    const row = readDraft.get();
+    if (!row) return { draft: null, updatedAt: null };
+    try {
+        return { draft: JSON.parse(row.payload), updatedAt: row.updated_at };
+    } catch (error) {
+        console.error("Stored draft is not valid JSON.", error);
+        const invalidDraftError = new Error("تعذّر قراءة المسودة المحفوظة.");
+        invalidDraftError.statusCode = 500;
+        throw invalidDraftError;
+    }
+}
+
+function publicDraft(draft) {
+    if (!draft) return null;
+    const hiddenStatuses = new Set(["hidden", "draft", "inactive", "unpublished"]);
+    const publicContent = {};
+    for (const collection of ["sections", "services", "projects", "teamMembers", "testimonials", "faq"]) {
+        if (Array.isArray(draft[collection])) {
+            publicContent[collection] = draft[collection].filter((item) => {
+                if (!item || typeof item !== "object" || item.visible === false) return false;
+                return typeof item.status !== "string" || !hiddenStatuses.has(item.status.toLowerCase());
+            });
+        }
+    }
+    if (draft.settings && typeof draft.settings === "object") {
+        const publicSettings = {};
+        for (const key of ["siteName", "siteNameEn", "siteDescription", "siteDescriptionEn", "contactEmail", "contactPhone", "location", "locationEn"]) {
+            if (Object.hasOwn(draft.settings, key)) publicSettings[key] = draft.settings[key];
+        }
+        publicContent.settings = publicSettings;
+    }
+    return publicContent;
+}
+
+function persistDraft(draft) {
+    const payload = JSON.stringify(draft);
+    if (Buffer.byteLength(payload, "utf8") > maxDraftBytes) {
+        const sizeError = new Error("حجم المسودة أكبر من الحد المسموح (2 ميغابايت).");
+        sizeError.statusCode = 413;
+        throw sizeError;
+    }
+    writeDraft.run(payload);
+    return getStoredDraft();
+}
+
+const createDraftIfEmpty = database.transaction((draft) => {
+    const existing = readDraft.get();
+    if (existing) return { ...getStoredDraft(), created: false };
+    const saved = persistDraft(draft);
+    return { ...saved, created: true };
+});
 
 const sessions = new Map();
 const loginAttempts = new Map();
@@ -136,6 +191,16 @@ app.get("/api/health", (_request, response) => {
     response.json({ status: "ok" });
 });
 
+app.get("/api/site", (_request, response, next) => {
+    try {
+        response.set("Cache-Control", "no-store");
+        const { draft, updatedAt } = getStoredDraft();
+        response.json({ draft: publicDraft(draft), updatedAt });
+    } catch (error) {
+        next(error);
+    }
+});
+
 app.post("/api/auth/login", sameOrigin, (request, response) => {
     const now = Date.now();
     for (const [key, attempt] of loginAttempts) {
@@ -170,35 +235,135 @@ app.post("/api/auth/logout", sameOrigin, (request, response) => {
     response.status(204).end();
 });
 
-app.get("/api/draft", requireSession, (_request, response) => {
-    const row = readDraft.get();
-    if (!row) return response.json({ draft: null, updatedAt: null });
-    let draft;
+app.get("/api/draft", requireSession, (_request, response, next) => {
     try {
-        draft = JSON.parse(row.payload);
+        response.set("Cache-Control", "no-store");
+        response.json(getStoredDraft());
     } catch (error) {
-        console.error("Stored draft is not valid JSON.", error);
-        return response.status(500).json({ error: "تعذّر قراءة المسودة المحفوظة." });
+        next(error);
     }
-    response.json({ draft, updatedAt: row.updated_at });
 });
 
-app.put("/api/draft", sameOrigin, requireSession, (request, response) => {
+app.put("/api/draft", sameOrigin, requireSession, (request, response, next) => {
     const result = draftFromRequest(request.body);
     if (result.error) return response.status(400).json({ error: result.error });
-
-    const payload = JSON.stringify(result.draft);
-    if (Buffer.byteLength(payload, "utf8") > 2 * 1024 * 1024) {
-        return response.status(413).json({ error: "حجم المسودة أكبر من الحد المسموح (2 ميغابايت)." });
+    try {
+        response.json(persistDraft(result.draft));
+    } catch (error) {
+        next(error);
     }
-    writeDraft.run(payload);
-    const saved = readDraft.get();
-    response.json({ draft: result.draft, updatedAt: saved.updated_at });
+});
+
+app.post("/api/draft", sameOrigin, requireSession, (request, response, next) => {
+    const result = draftFromRequest(request.body);
+    if (result.error) return response.status(400).json({ error: result.error });
+    try {
+        const saved = createDraftIfEmpty(result.draft);
+        response.status(saved.created ? 201 : 200).json(saved);
+    } catch (error) {
+        next(error);
+    }
+});
+
+function validCollection(request, response, next) {
+    if (!editableCollections.has(request.params.collection)) {
+        return response.status(404).json({ error: "مجموعة المحتوى غير موجودة." });
+    }
+    next();
+}
+
+const updateCollection = database.transaction((collection, mutate) => {
+    const stored = getStoredDraft();
+    const draft = stored.draft || {};
+    const items = Array.isArray(draft[collection]) ? draft[collection] : [];
+    const result = mutate(items);
+    if (result === null) return null;
+    draft[collection] = result.items;
+    const saved = persistDraft(draft);
+    return { item: result.item, items: result.items, updatedAt: saved.updatedAt };
+});
+
+app.get("/api/content/:collection", requireSession, validCollection, (request, response, next) => {
+    try {
+        const { draft, updatedAt } = getStoredDraft();
+        response.set("Cache-Control", "no-store");
+        response.json({ items: draft && Array.isArray(draft[request.params.collection]) ? draft[request.params.collection] : [], updatedAt });
+    } catch (error) {
+        next(error);
+    }
+});
+
+app.get("/api/content/:collection/:id", requireSession, validCollection, (request, response, next) => {
+    try {
+        const { draft, updatedAt } = getStoredDraft();
+        const items = draft && Array.isArray(draft[request.params.collection]) ? draft[request.params.collection] : [];
+        const item = items.find((entry) => entry && entry.id === request.params.id);
+        if (!item) return response.status(404).json({ error: "عنصر المحتوى غير موجود." });
+        response.set("Cache-Control", "no-store");
+        response.json({ item, updatedAt });
+    } catch (error) {
+        next(error);
+    }
+});
+
+app.post("/api/content/:collection", sameOrigin, requireSession, validCollection, (request, response, next) => {
+    const item = request.body;
+    if (!item || typeof item !== "object" || Array.isArray(item)) {
+        return response.status(400).json({ error: "يجب إرسال عنصر المحتوى ككائن JSON." });
+    }
+    const id = typeof item.id === "string" ? item.id.trim() : "";
+    if (!id) return response.status(400).json({ error: "يجب أن يحتوي عنصر المحتوى على معرّف نصي." });
+    try {
+        const result = updateCollection(request.params.collection, (items) => {
+            if (items.some((entry) => entry && entry.id === id)) return null;
+            const created = { ...item, id };
+            return { items: [...items, created], item: created };
+        });
+        if (!result) return response.status(409).json({ error: "يوجد عنصر بهذا المعرّف مسبقاً." });
+        response.status(201).json(result);
+    } catch (error) {
+        next(error);
+    }
+});
+
+app.put("/api/content/:collection/:id", sameOrigin, requireSession, validCollection, (request, response, next) => {
+    const item = request.body;
+    if (!item || typeof item !== "object" || Array.isArray(item)) {
+        return response.status(400).json({ error: "يجب إرسال عنصر المحتوى ككائن JSON." });
+    }
+    try {
+        const result = updateCollection(request.params.collection, (items) => {
+            const index = items.findIndex((entry) => entry && entry.id === request.params.id);
+            if (index < 0) return null;
+            const updated = { ...item, id: request.params.id };
+            const updatedItems = [...items];
+            updatedItems[index] = updated;
+            return { items: updatedItems, item: updated };
+        });
+        if (!result) return response.status(404).json({ error: "عنصر المحتوى غير موجود." });
+        response.json(result);
+    } catch (error) {
+        next(error);
+    }
+});
+
+app.delete("/api/content/:collection/:id", sameOrigin, requireSession, validCollection, (request, response, next) => {
+    try {
+        const result = updateCollection(request.params.collection, (items) => {
+            const updatedItems = items.filter((entry) => !entry || entry.id !== request.params.id);
+            if (updatedItems.length === items.length) return null;
+            return { items: updatedItems, item: { id: request.params.id } };
+        });
+        if (!result) return response.status(404).json({ error: "عنصر المحتوى غير موجود." });
+        response.json({ deleted: true, updatedAt: result.updatedAt });
+    } catch (error) {
+        next(error);
+    }
 });
 
 app.all("/api/draft", (_request, response) => {
-    response.set("Allow", "GET, PUT");
-    response.status(405).json({ error: "الطريقة غير مدعومة لهذا المسار. استخدم GET أو PUT." });
+    response.set("Allow", "GET, POST, PUT");
+    response.status(405).json({ error: "الطريقة غير مدعومة لهذا المسار. استخدم GET أو POST أو PUT." });
 });
 app.use("/api", (_request, response) => {
     response.status(404).json({ error: "مسار API غير موجود." });

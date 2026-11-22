@@ -1,4 +1,4 @@
-import { authenticate, createEmptyDraft, loadDraft, logout, saveDraft } from "./draft-adapter.js";
+import { authenticate, createEmptyDraft, loadDraft, logout, normalizeDraft, saveDraft } from "./draft-adapter.js";
 import { renderPreview } from "./preview-renderer.js";
 
 const translations = {
@@ -7,7 +7,7 @@ const translations = {
         brandSubtitle: "إدارة الموقع", navOverview: "نظرة عامة", navContent: "إدارة المحتوى", navSystem: "النظام",
         navHome: "لوحة التحكم", navSections: "أقسام الموقع", navPages: "الصفحات", navServices: "الخدمات", navProjects: "المشاريع",
         navTeam: "فريق العمل", navTestimonials: "آراء العملاء", navFaq: "الأسئلة الشائعة", navMessages: "الرسائل", navSettings: "الإعدادات",
-        viewSite: "عرض الموقع", preview: "معاينة", save: "حفظ التغييرات", loading: "جارٍ تحميل المسودة…", saved: "تم الحفظ في هذا المتصفح", saving: "جارٍ الحفظ…",
+        viewSite: "عرض الموقع", preview: "معاينة", save: "حفظ التغييرات", loading: "جارٍ تحميل المسودة…", saved: "تم الحفظ في قاعدة البيانات", saving: "جارٍ الحفظ…",
         unsaved: "تغييرات غير محفوظة", saveError: "تعذّر الحفظ", retry: "إعادة المحاولة", previewEyebrow: "عرض تجريبي", previewTitle: "معاينة الموقع",
         homeTitle: "لوحة التحكم", homeDescription: "نظرة سريعة على محتوى موقع مدار تك.", welcome: "مرحباً بك في إدارة موقع مدار تك",
         welcomeDescription: "أدر صفحات الموقع وأقسامه ومحتواه من مكان واحد.", visitors: "عدد الزوار", pages: "الصفحات", services: "الخدمات",
@@ -40,13 +40,15 @@ const translations = {
         search: "ابحث…", allMessages: "كل الرسائل", unread: "غير مقروءة", read: "مقروءة", markRead: "تحديد كمقروءة",
         markUnread: "تحديد كغير مقروءة", date: "التاريخ", email: "البريد", phone: "الهاتف", message: "الرسالة",
         noItems: "لا توجد عناصر هنا بعد.", noItemsHint: "ابدأ بإضافة أول عنصر.", saveSettings: "حفظ الإعدادات",
-        confirmDelete: "هل أنت متأكد من حذف هذا العنصر؟ لا يمكن التراجع عن هذا الإجراء.", confirmReload: "ستؤدي إعادة التحميل إلى استبدال التغييرات غير المحفوظة بالمسودة المحفوظة في هذا المتصفح. هل تريد المتابعة؟",
+        confirmDelete: "هل أنت متأكد من حذف هذا العنصر؟ لا يمكن التراجع عن هذا الإجراء.", confirmReload: "ستؤدي إعادة التحميل إلى استبدال التغييرات غير المحفوظة بالمسودة المحفوظة في قاعدة البيانات. هل تريد المتابعة؟",
         created: "تمت الإضافة إلى المسودة.", updated: "تم تحديث العنصر في المسودة.", removed: "تم حذف العنصر من المسودة.",
         moved: "تم تحديث الترتيب.", exported: "تم تنزيل نسخة JSON.", loadFailed: "تعذّر تحميل المسودة من /api/draft. يمكنك المتابعة مؤقتاً، لكن لن تُحفظ التغييرات حتى يتوفر الاتصال بالخادم.",
-        saveFailed: "تعذّر حفظ المسودة في مساحة هذا المتصفح. حرّر مساحة ثم أعد المحاولة.", loadSuccess: "تم تحميل المسودة.",
+        saveFailed: "تعذّر حفظ المسودة على الخادم. تحقق من الاتصال ثم أعد المحاولة.", loadSuccess: "تم تحميل المسودة.",
         itemCount: "عنصر", projectPublished: "النشر", readStatus: "مقروءة", unreadStatus: "جديدة",
         noSectionItems: "أقسام الموقع غير مضافة بعد.", contentTypeHint: "اختر مجموعة المحتوى التي سيعرضها هذا القسم في المعاينة.",
-        settingsSaved: "تم تحديث الإعدادات في المسودة.", exportJson: "تصدير JSON", close: "إغلاق", unknown: "—",
+        settingsSaved: "تم تحديث الإعدادات في المسودة.", exportJson: "تصدير JSON", importJson: "استيراد JSON", close: "إغلاق", unknown: "—",
+        confirmImport: "سيستبدل الاستيراد محتوى الموقع الحالي بمحتوى الملف. هل تريد المتابعة؟",
+        imported: "تم استيراد المسودة وحفظها في قاعدة البيانات.", importFailed: "تعذّر استيراد الملف:", invalidImport: "يجب أن يحتوي الملف على مسودة بصيغة JSON صالحة.",
         logout: "تسجيل الخروج", loginEyebrow: "حماية لوحة التحكم", loginTitle: "تسجيل الدخول",
         loginDescription: "أدخل كلمة المرور التي ظهرت عند إعداد الخادم.", loginPassword: "كلمة مرور الإدارة",
         loginSubmit: "دخول", loginRequired: "يلزم تسجيل الدخول لتحميل المسودة.", loginInvalid: "كلمة المرور غير صحيحة.",
@@ -58,7 +60,7 @@ const translations = {
         brandSubtitle: "Website CMS", navOverview: "OVERVIEW", navContent: "CONTENT", navSystem: "SYSTEM",
         navHome: "Dashboard", navSections: "Site sections", navPages: "Pages", navServices: "Services", navProjects: "Projects",
         navTeam: "Team", navTestimonials: "Testimonials", navFaq: "FAQ", navMessages: "Messages", navSettings: "Settings",
-        viewSite: "View website", preview: "Preview", save: "Save changes", loading: "Loading draft…", saved: "Saved in this browser", saving: "Saving…",
+        viewSite: "View website", preview: "Preview", save: "Save changes", loading: "Loading draft…", saved: "Saved to database", saving: "Saving…",
         unsaved: "Unsaved changes", saveError: "Save failed", retry: "Retry", previewEyebrow: "Preview", previewTitle: "Website preview",
         homeTitle: "Dashboard", homeDescription: "A quick overview of Madar Tech website content.", welcome: "Welcome to Madar Tech CMS",
         welcomeDescription: "Manage website pages, sections, and content in one place.", visitors: "Visitors", pages: "Pages", services: "Services",
@@ -91,13 +93,15 @@ const translations = {
         search: "Search…", allMessages: "All messages", unread: "Unread", read: "Read", markRead: "Mark as read",
         markUnread: "Mark as unread", date: "Date", email: "Email", phone: "Phone", message: "Message",
         noItems: "Nothing here yet.", noItemsHint: "Add your first item to get started.", saveSettings: "Save settings",
-        confirmDelete: "Are you sure you want to delete this item? This cannot be undone.", confirmReload: "Reloading will replace your unsaved changes with the draft saved in this browser. Continue?",
+        confirmDelete: "Are you sure you want to delete this item? This cannot be undone.", confirmReload: "Reloading will replace your unsaved changes with the draft saved in the database. Continue?",
         created: "Item added to the draft.", updated: "Draft item updated.", removed: "Item removed from the draft.",
         moved: "Order updated.", exported: "JSON file downloaded.", loadFailed: "Could not load the draft from /api/draft. You can continue temporarily, but changes will not persist until the server is available.",
-        saveFailed: "Could not save the draft in this browser. Free up storage space and try again.", loadSuccess: "Draft loaded.",
+        saveFailed: "Could not save the draft to the server. Check your connection and try again.", loadSuccess: "Draft loaded.",
         itemCount: "items", projectPublished: "Publishing", readStatus: "Read", unreadStatus: "New",
         noSectionItems: "No website sections yet.", contentTypeHint: "Choose the content collection this section will display in preview.",
-        settingsSaved: "Settings updated in the draft.", exportJson: "Export JSON", close: "Close", unknown: "—",
+        settingsSaved: "Settings updated in the draft.", exportJson: "Export JSON", importJson: "Import JSON", close: "Close", unknown: "—",
+        confirmImport: "Importing will replace the current website content with the file contents. Continue?",
+        imported: "Draft imported and saved to the database.", importFailed: "Could not import the file:", invalidImport: "The file must contain a valid JSON draft.",
         logout: "Sign out", loginEyebrow: "Dashboard security", loginTitle: "Sign in",
         loginDescription: "Enter the password shown when the server was set up.", loginPassword: "Administrator password",
         loginSubmit: "Sign in", loginRequired: "Sign in is required to load the draft.", loginInvalid: "The password is incorrect.",
@@ -557,6 +561,31 @@ function exportDraft() {
     showNotice(t("exported"), "success");
 }
 
+async function importDraftFile(file) {
+    if (!file) return;
+    try {
+        const parsed = JSON.parse(await file.text());
+        let imported = parsed;
+        if (parsed && typeof parsed === "object" && !Array.isArray(parsed) && Object.hasOwn(parsed, "draft")) {
+            imported = parsed.draft;
+        }
+        if (!imported || typeof imported !== "object" || Array.isArray(imported)) {
+            throw new Error(t("invalidImport"));
+        }
+        if (!window.confirm(t("confirmImport"))) return;
+        state.draft = normalizeDraft(imported);
+        renderView();
+        markDirty();
+        await saveDraftNow();
+        if (savedRevision === revision) showNotice(t("imported"), "success");
+    } catch (error) {
+        console.error("Draft import failed.", error);
+        showNotice(`${t("importFailed")} ${errorMessage(error)}`.trim(), "error", true);
+    } finally {
+        document.getElementById("importInput").value = "";
+    }
+}
+
 function moveItem(view, id, delta) {
     const items = sorted(collection(view));
     const index = items.findIndex((item) => item.id === id);
@@ -698,6 +727,10 @@ document.querySelector(".side-nav").addEventListener("click", (event) => {
 });
 document.getElementById("languageToggle").addEventListener("click", changeLocale);
 document.getElementById("exportButton").addEventListener("click", exportDraft);
+document.getElementById("importButton").addEventListener("click", () => document.getElementById("importInput").click());
+document.getElementById("importInput").addEventListener("change", (event) => {
+    void importDraftFile(event.target.files[0]);
+});
 document.getElementById("saveButton").addEventListener("click", saveDraftNow);
 logoutButton.addEventListener("click", async () => {
     if (revision > savedRevision && !window.confirm(t("confirmLogout"))) return;
