@@ -1,7 +1,7 @@
-import assert from "node:assert/strict";
+﻿import assert from "node:assert/strict";
 import test from "node:test";
-import { createEmptyDraft } from "../js/draft-adapter.js";
-import { renderPreview } from "../js/preview-renderer.js";
+import { createEmptyDraft } from "../dashboard/js/draft-adapter.js";
+import { renderPreview } from "../dashboard/js/preview-renderer.js";
 
 test("the starter draft includes English content for its preview", () => {
     const preview = renderPreview(createEmptyDraft(), "en");
@@ -13,18 +13,18 @@ test("the starter draft includes English content for its preview", () => {
 
 test("English preview uses English CMS content and never falls back to Arabic", () => {
     const draft = {
-        settings: { siteName: "اسم الموقع" },
+        settings: { siteName: "ط§ط³ظ… ط§ظ„ظ…ظˆظ‚ط¹" },
         sections: [
             {
-                id: "services", title: "الخدمات", titleEn: "Services",
-                description: "وصف عربي", descriptionEn: "English description",
+                id: "services", title: "ط§ظ„ط®ط¯ظ…ط§طھ", titleEn: "Services",
+                description: "ظˆطµظپ ط¹ط±ط¨ظٹ", descriptionEn: "English description",
                 sectionKey: "services", visible: true
             },
-            { id: "untranslated", title: "عنوان عربي", description: "وصف عربي", visible: true }
+            { id: "untranslated", title: "ط¹ظ†ظˆط§ظ† ط¹ط±ط¨ظٹ", description: "ظˆطµظپ ط¹ط±ط¨ظٹ", visible: true }
         ],
         services: [
-            { title: "خدمة عربية", titleEn: "English service", description: "شرح عربي", descriptionEn: "Service details", visible: true },
-            { title: "خدمة بلا ترجمة", titleEn: "عنوان عربي", description: "شرح عربي", visible: true }
+            { title: "ط®ط¯ظ…ط© ط¹ط±ط¨ظٹط©", titleEn: "English service", description: "ط´ط±ط­ ط¹ط±ط¨ظٹ", descriptionEn: "Service details", visible: true },
+            { title: "ط®ط¯ظ…ط© ط¨ظ„ط§ طھط±ط¬ظ…ط©", titleEn: "ط¹ظ†ظˆط§ظ† ط¹ط±ط¨ظٹ", description: "ط´ط±ط­ ط¹ط±ط¨ظٹ", visible: true }
         ]
     };
 
@@ -39,9 +39,9 @@ test("English preview uses English CMS content and never falls back to Arabic", 
 
 test("Arabic preview continues to use the Arabic CMS content", () => {
     const preview = renderPreview({
-        sections: [{ title: "عنوان عربي", titleEn: "English title", visible: true }]
+        sections: [{ title: "ط¹ظ†ظˆط§ظ† ط¹ط±ط¨ظٹ", titleEn: "English title", visible: true }]
     }, "ar");
 
     assert.match(preview, /<html lang="ar" dir="rtl">/);
-    assert.match(preview, /عنوان عربي/);
+    assert.match(preview, /ط¹ظ†ظˆط§ظ† ط¹ط±ط¨ظٹ/);
 });

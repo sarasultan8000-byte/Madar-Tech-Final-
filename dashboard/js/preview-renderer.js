@@ -1,4 +1,4 @@
-function escapeHtml(value) {
+﻿function escapeHtml(value) {
     return String(value == null ? "" : value).replace(/[&<>"']/g, (character) => ({
         "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
     })[character]);
@@ -53,14 +53,14 @@ function cardMarkup(item, type, locale) {
     if (locale === "en" && !title && !description && !category && !role && !question && !answer) return "";
 
     if (type === "services") {
-        return `<article class="preview-card">${image}<span class="preview-symbol">${escapeHtml(item.icon || "✳")}</span>${title ? `<h3>${escapeHtml(title)}</h3>` : ""}${description ? `<p>${escapeHtml(description)}</p>` : ""}</article>`;
+        return `<article class="preview-card">${image}<span class="preview-symbol">${escapeHtml(item.icon || "âœ³")}</span>${title ? `<h3>${escapeHtml(title)}</h3>` : ""}${description ? `<p>${escapeHtml(description)}</p>` : ""}</article>`;
     }
     if (type === "projects") {
         const href = safeUrl(item.url);
-        return `<article class="preview-card">${image}${category ? `<span class="preview-tag">${escapeHtml(category)}</span>` : ""}${title ? `<h3>${escapeHtml(title)}</h3>` : ""}${description ? `<p>${escapeHtml(description)}</p>` : ""}${href ? `<a href="${escapeHtml(href)}" rel="noopener noreferrer">${locale === "en" ? "View project" : "عرض المشروع"} ↗</a>` : ""}</article>`;
+        return `<article class="preview-card">${image}${category ? `<span class="preview-tag">${escapeHtml(category)}</span>` : ""}${title ? `<h3>${escapeHtml(title)}</h3>` : ""}${description ? `<p>${escapeHtml(description)}</p>` : ""}${href ? `<a href="${escapeHtml(href)}" rel="noopener noreferrer">${locale === "en" ? "View project" : "ط¹ط±ط¶ ط§ظ„ظ…ط´ط±ظˆط¹"} â†—</a>` : ""}</article>`;
     }
     if (type === "teamMembers") return `<article class="preview-card">${image}${name ? `<h3>${escapeHtml(name)}</h3>` : ""}${role ? `<span class="preview-role">${escapeHtml(role)}</span>` : ""}${description ? `<p>${escapeHtml(description)}</p>` : ""}</article>`;
-    if (type === "testimonials") return `<article class="preview-card"><div class="preview-stars" aria-label="${locale === "en" ? "Rating" : "التقييم"} ${escapeHtml(item.rating || 5)} ${locale === "en" ? "out of" : "من"} 5">${"★".repeat(Math.max(1, Math.min(5, Number(item.rating) || 5)))}</div>${description ? `<p>“${escapeHtml(description)}”</p>` : ""}<strong>${image}${escapeHtml(name)}</strong></article>`;
+    if (type === "testimonials") return `<article class="preview-card"><div class="preview-stars" aria-label="${locale === "en" ? "Rating" : "ط§ظ„طھظ‚ظٹظٹظ…"} ${escapeHtml(item.rating || 5)} ${locale === "en" ? "out of" : "ظ…ظ†"} 5">${"âک…".repeat(Math.max(1, Math.min(5, Number(item.rating) || 5)))}</div>${description ? `<p>â€œ${escapeHtml(description)}â€‌</p>` : ""}<strong>${image}${escapeHtml(name)}</strong></article>`;
     if (type === "faq") {
         return `<details class="preview-faq"><summary>${escapeHtml(question || "")}</summary><p>${escapeHtml(answer || "")}</p></details>`;
     }
@@ -93,10 +93,10 @@ export function renderPreview(draft, locale = "ar") {
     }).join("");
     const siteName = localizedValue(draft.settings, "siteName", locale) || (locale === "en"
         ? "Madar Tech"
-        : draft.settings && draft.settings.siteName || "مدار تك | Madar Tech");
+        : draft.settings && draft.settings.siteName || "ظ…ط¯ط§ط± طھظƒ | Madar Tech");
     const name = escapeHtml(siteName);
-    const emptyMessage = isEnglish ? "Add and show a section to see it in this preview." : "أضف قسماً وأظهره لتراه في هذه المعاينة.";
-    return `<!doctype html><html lang="${isEnglish ? "en" : "ar"}" dir="${isEnglish ? "ltr" : "rtl"}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${name}</title><style>
+    const emptyMessage = isEnglish ? "Add and show a section to see it in this preview." : "ط£ط¶ظپ ظ‚ط³ظ…ط§ظ‹ ظˆط£ط¸ظ‡ط±ظ‡ ظ„طھط±ط§ظ‡ ظپظٹ ظ‡ط°ظ‡ ط§ظ„ظ…ط¹ط§ظٹظ†ط©.";
+    return `<!doctype html><html lang="${isEnglish ? "en" : "ar"}" dir="${isEnglish ? "ltr" : "rtl"}"><head><base href="../"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${name}</title><style>
 *{box-sizing:border-box}body{margin:0;background:#f6f8f9;color:#182b3c;font-family:Tahoma,Arial,sans-serif;line-height:1.8}.site-header{padding:18px max(5vw,24px);background:#0b2540;color:white;display:flex;align-items:center;justify-content:space-between}.site-header strong{font-size:18px}.site-header span{color:#d7e64b;font-size:12px}.site-section{padding:clamp(38px,7vw,86px) max(5vw,24px);background:#fff;border-bottom:1px solid #e8edf0}.site-section:nth-child(even){background:#f5f7f8}.section-inner{max-width:1100px;margin:auto}.section-copy{max-width:740px;margin:0 auto 30px;text-align:center}.eyebrow{color:#79892b;font-size:13px;font-weight:bold}.section-copy h2{margin:4px 0 8px;color:#0b2540;font-size:clamp(25px,4vw,36px)}.section-copy p{margin:0;color:#607381}.section-image{display:block;width:min(100%,720px);max-height:380px;object-fit:cover;margin:24px auto 0;border-radius:18px}.preview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:16px;margin-top:28px}.preview-card{padding:20px;border:1px solid #e4eaed;border-radius:14px;background:white;box-shadow:0 10px 24px #0b25400d}.preview-card h3{margin:10px 0 3px;color:#0b2540;font-size:17px}.preview-card p{margin:8px 0 0;color:#627480}.preview-card .preview-image{width:100%;height:160px;object-fit:cover;border-radius:9px}.preview-symbol{display:inline-grid;width:34px;height:34px;place-items:center;border-radius:10px;background:#f4f7d8;color:#0b2540}.preview-tag,.preview-role{color:#71812a;font-size:12px}.preview-card a{display:inline-block;margin-top:10px;color:#0b2540;font-weight:bold}.preview-stars{color:#b49a2e;letter-spacing:2px}.preview-faq{padding:15px 18px;border:1px solid #e4eaed;border-radius:11px;background:white}.preview-faq summary{color:#0b2540;font-weight:bold;cursor:pointer}.preview-faq p{color:#607381}.empty{max-width:620px;margin:70px auto;padding:30px;text-align:center;color:#607381}.site-footer{padding:25px;text-align:center;background:#071a31;color:#fff;font-size:13px}@media(max-width:600px){.site-section{padding-inline:18px}.preview-grid{grid-template-columns:1fr}}
-</style></head><body><header class="site-header"><strong>${name}</strong><span>${isEnglish ? "Website preview" : "معاينة الموقع"}</span></header><main>${content || `<div class="empty">${escapeHtml(emptyMessage)}</div>`}</main><footer class="site-footer">${name}</footer></body></html>`;
+</style></head><body><header class="site-header"><strong>${name}</strong><span>${isEnglish ? "Website preview" : "ظ…ط¹ط§ظٹظ†ط© ط§ظ„ظ…ظˆظ‚ط¹"}</span></header><main>${content || `<div class="empty">${escapeHtml(emptyMessage)}</div>`}</main><footer class="site-footer">${name}</footer></body></html>`;
 }

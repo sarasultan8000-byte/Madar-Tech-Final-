@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b2540">
+    <meta name="description" content="ط¥ط¯ط§ط±ط© ظ…ط­طھظˆظ‰ ظ…ظˆظ‚ط¹ ظ…ط¯ط§ط± طھظƒ">
+    <title>ظ„ظˆط­ط© ظ…ط¯ط§ط± طھظƒ | ط¥ط¯ط§ط±ط© ط§ظ„ظ…ظˆظ‚ط¹</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar" id="sidebar">
+            <a class="brand" href="../index.html" aria-label="ظ…ط¯ط§ط± طھظƒ" data-i18n="brandName" data-i18n-attr="aria-label">
+                <img src="../images/logo.png" alt="ط´ط¹ط§ط± ظ…ط¯ط§ط± طھظƒ" data-i18n="logoAlt" data-i18n-attr="alt">
+                <span class="brand-copy"><strong data-i18n="brandName">ظ…ط¯ط§ط± طھظƒ</strong><small data-i18n="brandSubtitle">ط¥ط¯ط§ط±ط© ط§ظ„ظ…ظˆظ‚ط¹</small></span>
+            </a>
+            <nav class="side-nav" aria-label="ط§ظ„ظ‚ط§ط¦ظ…ط© ط§ظ„ط±ط¦ظٹط³ظٹط©" data-i18n="mainNav" data-i18n-attr="aria-label">
+                <span class="nav-caption" data-i18n="navOverview">ظ†ط¸ط±ط© ط¹ط§ظ…ط©</span>
+                <button class="nav-link active" type="button" data-view="home"><span class="nav-icon">⌂</span><span data-i18n="navHome">ظ„ظˆط­ط© ط§ظ„طھط­ظƒظ…</span></button>
+                <span class="nav-caption" data-i18n="navContent">ط¥ط¯ط§ط±ط© ط§ظ„ظ…ط­طھظˆظ‰</span>
+                <button class="nav-link" type="button" data-view="sections"><span class="nav-icon">▤</span><span data-i18n="navSections">ط£ظ‚ط³ط§ظ… ط§ظ„ظ…ظˆظ‚ط¹</span></button>
+                <button class="nav-link" type="button" data-view="pages"><span class="nav-icon">▧</span><span data-i18n="navPages">ط§ظ„طµظپط­ط§طھ</span></button>
+                <button class="nav-link" type="button" data-view="services"><span class="nav-icon">✳</span><span data-i18n="navServices">ط§ظ„ط®ط¯ظ…ط§طھ</span></button>
+                <button class="nav-link" type="button" data-view="projects"><span class="nav-icon">◇</span><span data-i18n="navProjects">ط§ظ„ظ…ط´ط§ط±ظٹط¹</span></button>
+                <button class="nav-link" type="button" data-view="teamMembers"><span class="nav-icon">♧</span><span data-i18n="navTeam">ظپط±ظٹظ‚ ط§ظ„ط¹ظ…ظ„</span></button>
+                <button class="nav-link" type="button" data-view="testimonials"><span class="nav-icon">❞</span><span data-i18n="navTestimonials">ط¢ط±ط§ط، ط§ظ„ط¹ظ…ظ„ط§ط،</span></button>
+                <button class="nav-link" type="button" data-view="faq"><span class="nav-icon">?</span><span data-i18n="navFaq">ط§ظ„ط£ط³ط¦ظ„ط© ط§ظ„ط´ط§ط¦ط¹ط©</span></button>
+                <button class="nav-link" type="button" data-view="messages"><span class="nav-icon">✉</span><span data-i18n="navMessages">ط§ظ„ط±ط³ط§ط¦ظ„</span><span id="unreadBadge" class="nav-badge" hidden>0</span></button>
+                <span class="nav-caption nav-caption-bottom" data-i18n="navSystem">ط§ظ„ظ†ط¸ط§ظ…</span>
+                <button class="nav-link" type="button" data-view="settings"><span class="nav-icon">⚙</span><span data-i18n="navSettings">ط§ظ„ط¥ط¹ط¯ط§ط¯ط§طھ</span></button>
+            </nav>
+            <a class="site-link" href="../index.html"><span>↗</span><span data-i18n="viewSite">ط¹ط±ط¶ ط§ظ„ظ…ظˆظ‚ط¹</span></a>
+        </aside>
+
+        <main class="main-area">
+            <header class="topbar">
+                <div class="topbar-start">
+                    <button class="icon-button mobile-menu" id="menuToggle" type="button" aria-label="ظپطھط­ ط§ظ„ظ‚ط§ط¦ظ…ط©" data-i18n="openMenu" data-i18n-attr="aria-label" aria-expanded="false">☰</button>
+                    <div class="breadcrumb"><span data-i18n="brandName">ظ…ط¯ط§ط± طھظƒ</span><span class="breadcrumb-separator">/</span><strong id="currentViewTitle">ظ„ظˆط­ط© ط§ظ„طھط­ظƒظ…</strong></div>
+                </div>
+                <div class="topbar-actions">
+                    <span class="save-state" id="saveState" role="status" aria-live="polite"><i class="state-dot"></i><span data-i18n="loading">ط¬ط§ط±ظچ طھط­ظ…ظٹظ„ ط§ظ„ظ…ط³ظˆط¯ط©â€¦</span></span>
+                    <button class="button button-quiet" id="languageToggle" type="button" aria-label="Switch to English">EN</button>
+                    <button class="button button-outline" id="importButton" type="button" data-i18n="importJson">ط§ط³طھظٹط±ط§ط¯ JSON</button>
+                    <input id="importInput" type="file" accept="application/json,.json" hidden>
+                    <button class="button button-outline" id="exportButton" type="button" data-i18n="exportJson">طھطµط¯ظٹط± JSON</button>
+                    <button class="button button-outline" id="previewButton" type="button"><span>◉</span><span data-i18n="preview">ظ…ط¹ط§ظٹظ†ط©</span></button>
+                    <button class="button button-primary" id="saveButton" type="button" disabled><span>✓</span><span data-i18n="save">ط­ظپط¸ ط§ظ„طھط؛ظٹظٹط±ط§طھ</span></button>
+                    <button class="button button-outline" id="logoutButton" type="button" data-i18n="logout" disabled>طھط³ط¬ظٹظ„ ط§ظ„ط®ط±ظˆط¬</button>
+                </div>
+            </header>
+
+            <div class="workspace">
+                <div id="notice" class="notice" role="alert" hidden></div>
+                <section id="viewRoot" aria-live="polite"></section>
+            </div>
+        </main>
+    </div>
+
+    <dialog class="auth-dialog" id="loginDialog" aria-labelledby="loginTitle">
+        <form class="auth-form" id="loginForm">
+            <span class="eyebrow" data-i18n="loginEyebrow">ط­ظ…ط§ظٹط© ظ„ظˆط­ط© ط§ظ„طھط­ظƒظ…</span>
+            <h2 id="loginTitle" data-i18n="loginTitle">طھط³ط¬ظٹظ„ ط§ظ„ط¯ط®ظˆظ„</h2>
+            <p data-i18n="loginDescription">ط£ط¯ط®ظ„ ظƒظ„ظ…ط© ط§ظ„ظ…ط±ظˆط± ط§ظ„طھظٹ ط¸ظ‡ط±طھ ط¹ظ†ط¯ ط¥ط¹ط¯ط§ط¯ ط§ظ„ط®ط§ط¯ظ….</p>
+            <label for="adminPassword" data-i18n="loginPassword">ظƒظ„ظ…ط© ظ…ط±ظˆط± ط§ظ„ط¥ط¯ط§ط±ط©</label>
+            <input id="adminPassword" name="password" type="password" autocomplete="current-password" required>
+            <p class="auth-error" id="loginError" role="alert" hidden></p>
+            <button class="button button-primary" id="loginSubmit" type="submit" data-i18n="loginSubmit">ط¯ط®ظˆظ„</button>
+        </form>
+    </dialog>
+
+    <dialog class="preview-dialog" id="previewDialog" aria-labelledby="previewTitle">
+        <div class="dialog-header">
+            <div><span class="eyebrow" data-i18n="previewEyebrow">ط¹ط±ط¶ طھط¬ط±ظٹط¨ظٹ</span><h2 id="previewTitle" data-i18n="previewTitle">ظ…ط¹ط§ظٹظ†ط© ط§ظ„ظ…ظˆظ‚ط¹</h2></div>
+            <button class="icon-button" id="closePreview" type="button" aria-label="ط¥ط؛ظ„ط§ظ‚" data-i18n="close" data-i18n-attr="aria-label">أ—</button>
+        </div>
+        <iframe id="previewFrame" title="ظ…ط¹ط§ظٹظ†ط© ط§ظ„ظ…ظˆظ‚ط¹" data-i18n="previewTitle" data-i18n-attr="title" sandbox="allow-same-origin"></iframe>
+    </dialog>
+
+    <script type="module" src="js/dashboard.js"></script>
+</body>
+</html>

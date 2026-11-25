@@ -1,4 +1,4 @@
-import "dotenv/config";
+﻿import "dotenv/config";
 import express from "express";
 import Database from "better-sqlite3";
 import { randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
@@ -17,7 +17,7 @@ const passwordSaltText = process.env.ADMIN_PASSWORD_SALT || "";
 const passwordHashText = process.env.ADMIN_PASSWORD_HASH || "";
 
 if (!/^[\da-f]{32}$/i.test(passwordSaltText) || !/^[\da-f]{128}$/i.test(passwordHashText)) {
-    console.error("بيانات الدخول غير مهيأة. شغّل npm run setup أولاً.");
+    console.error("ط¨ظٹط§ظ†ط§طھ ط§ظ„ط¯ط®ظˆظ„ ط؛ظٹط± ظ…ظ‡ظٹط£ط©. ط´ط؛ظ‘ظ„ npm run setup ط£ظˆظ„ط§ظ‹.");
     process.exit(1);
 }
 
@@ -53,7 +53,7 @@ function getStoredDraft() {
         return { draft: JSON.parse(row.payload), updatedAt: row.updated_at };
     } catch (error) {
         console.error("Stored draft is not valid JSON.", error);
-        const invalidDraftError = new Error("تعذّر قراءة المسودة المحفوظة.");
+        const invalidDraftError = new Error("طھط¹ط°ظ‘ط± ظ‚ط±ط§ط،ط© ط§ظ„ظ…ط³ظˆط¯ط© ط§ظ„ظ…ط­ظپظˆط¸ط©.");
         invalidDraftError.statusCode = 500;
         throw invalidDraftError;
     }
@@ -84,7 +84,7 @@ function publicDraft(draft) {
 function persistDraft(draft) {
     const payload = JSON.stringify(draft);
     if (Buffer.byteLength(payload, "utf8") > maxDraftBytes) {
-        const sizeError = new Error("حجم المسودة أكبر من الحد المسموح (2 ميغابايت).");
+        const sizeError = new Error("ط­ط¬ظ… ط§ظ„ظ…ط³ظˆط¯ط© ط£ظƒط¨ط± ظ…ظ† ط§ظ„ط­ط¯ ط§ظ„ظ…ط³ظ…ظˆط­ (2 ظ…ظٹط؛ط§ط¨ط§ظٹطھ).");
         sizeError.statusCode = 413;
         throw sizeError;
     }
@@ -120,7 +120,7 @@ function sameOrigin(request, response, next) {
         parsedOrigin = null;
     }
     if (!parsedOrigin || !["http:", "https:"].includes(parsedOrigin.protocol) || parsedOrigin.host !== request.get("host")) {
-        return response.status(403).json({ error: "يُسمح بالطلبات من نفس الموقع فقط." });
+        return response.status(403).json({ error: "ظٹظڈط³ظ…ط­ ط¨ط§ظ„ط·ظ„ط¨ط§طھ ظ…ظ† ظ†ظپط³ ط§ظ„ظ…ظˆظ‚ط¹ ظپظ‚ط·." });
     }
     next();
 }
@@ -139,7 +139,7 @@ function requireSession(request, response, next) {
     const expiresAt = sessions.get(token);
     if (!token || !expiresAt || expiresAt <= Date.now()) {
         if (token) sessions.delete(token);
-        return response.status(401).json({ error: "يلزم تسجيل الدخول للوصول إلى المسودة." });
+        return response.status(401).json({ error: "ظٹظ„ط²ظ… طھط³ط¬ظٹظ„ ط§ظ„ط¯ط®ظˆظ„ ظ„ظ„ظˆطµظˆظ„ ط¥ظ„ظ‰ ط§ظ„ظ…ط³ظˆط¯ط©." });
     }
     next();
 }
@@ -170,18 +170,18 @@ function draftFromRequest(body) {
         ? body.draft
         : body;
     if (!draft || typeof draft !== "object" || Array.isArray(draft)) {
-        return { error: "يجب إرسال المسودة ككائن JSON." };
+        return { error: "ظٹط¬ط¨ ط¥ط±ط³ط§ظ„ ط§ظ„ظ…ط³ظˆط¯ط© ظƒظƒط§ط¦ظ† JSON." };
     }
     if (draft.sections !== undefined && !Array.isArray(draft.sections)) {
-        return { error: "حقل sections يجب أن يكون قائمة." };
+        return { error: "ط­ظ‚ظ„ sections ظٹط¬ط¨ ط£ظ† ظٹظƒظˆظ† ظ‚ط§ط¦ظ…ط©." };
     }
     if (draft.settings !== undefined && (!draft.settings || typeof draft.settings !== "object" || Array.isArray(draft.settings))) {
-        return { error: "حقل settings يجب أن يكون كائناً." };
+        return { error: "ط­ظ‚ظ„ settings ظٹط¬ط¨ ط£ظ† ظٹظƒظˆظ† ظƒط§ط¦ظ†ط§ظ‹." };
     }
     const collections = ["pages", "services", "projects", "teamMembers", "testimonials", "faq", "messages"];
     for (const key of collections) {
         if (draft[key] !== undefined && !Array.isArray(draft[key])) {
-            return { error: `حقل ${key} يجب أن يكون قائمة.` };
+            return { error: `ط­ظ‚ظ„ ${key} ظٹط¬ط¨ ط£ظ† ظٹظƒظˆظ† ظ‚ط§ط¦ظ…ط©.` };
         }
     }
     return { draft };
@@ -208,18 +208,18 @@ app.post("/api/auth/login", sameOrigin, (request, response) => {
     }
     const attempts = loginAttempts.get(attemptKey(request));
     if (attempts && attempts.count >= 10 && attempts.resetAt > now) {
-        return response.status(429).json({ error: "محاولات كثيرة. انتظر قليلاً ثم حاول مجدداً." });
+        return response.status(429).json({ error: "ظ…ط­ط§ظˆظ„ط§طھ ظƒط«ظٹط±ط©. ط§ظ†طھط¸ط± ظ‚ظ„ظٹظ„ط§ظ‹ ط«ظ… ط­ط§ظˆظ„ ظ…ط¬ط¯ط¯ط§ظ‹." });
     }
 
     const password = request.body && request.body.password;
     if (typeof password !== "string" || password.length > 256) {
         recordFailedLogin(request);
-        return response.status(401).json({ error: "بيانات الدخول غير صحيحة." });
+        return response.status(401).json({ error: "ط¨ظٹط§ظ†ط§طھ ط§ظ„ط¯ط®ظˆظ„ ط؛ظٹط± طµط­ظٹط­ط©." });
     }
     const candidateHash = scryptSync(password, passwordSalt, expectedPasswordHash.length);
     if (!timingSafeEqual(candidateHash, expectedPasswordHash)) {
         recordFailedLogin(request);
-        return response.status(401).json({ error: "بيانات الدخول غير صحيحة." });
+        return response.status(401).json({ error: "ط¨ظٹط§ظ†ط§طھ ط§ظ„ط¯ط®ظˆظ„ ط؛ظٹط± طµط­ظٹط­ط©." });
     }
 
     loginAttempts.delete(attemptKey(request));
@@ -267,7 +267,7 @@ app.post("/api/draft", sameOrigin, requireSession, (request, response, next) => 
 
 function validCollection(request, response, next) {
     if (!editableCollections.has(request.params.collection)) {
-        return response.status(404).json({ error: "مجموعة المحتوى غير موجودة." });
+        return response.status(404).json({ error: "ظ…ط¬ظ…ظˆط¹ط© ط§ظ„ظ…ط­طھظˆظ‰ ط؛ظٹط± ظ…ظˆط¬ظˆط¯ط©." });
     }
     next();
 }
@@ -298,7 +298,7 @@ app.get("/api/content/:collection/:id", requireSession, validCollection, (reques
         const { draft, updatedAt } = getStoredDraft();
         const items = draft && Array.isArray(draft[request.params.collection]) ? draft[request.params.collection] : [];
         const item = items.find((entry) => entry && entry.id === request.params.id);
-        if (!item) return response.status(404).json({ error: "عنصر المحتوى غير موجود." });
+        if (!item) return response.status(404).json({ error: "ط¹ظ†طµط± ط§ظ„ظ…ط­طھظˆظ‰ ط؛ظٹط± ظ…ظˆط¬ظˆط¯." });
         response.set("Cache-Control", "no-store");
         response.json({ item, updatedAt });
     } catch (error) {
@@ -309,17 +309,17 @@ app.get("/api/content/:collection/:id", requireSession, validCollection, (reques
 app.post("/api/content/:collection", sameOrigin, requireSession, validCollection, (request, response, next) => {
     const item = request.body;
     if (!item || typeof item !== "object" || Array.isArray(item)) {
-        return response.status(400).json({ error: "يجب إرسال عنصر المحتوى ككائن JSON." });
+        return response.status(400).json({ error: "ظٹط¬ط¨ ط¥ط±ط³ط§ظ„ ط¹ظ†طµط± ط§ظ„ظ…ط­طھظˆظ‰ ظƒظƒط§ط¦ظ† JSON." });
     }
     const id = typeof item.id === "string" ? item.id.trim() : "";
-    if (!id) return response.status(400).json({ error: "يجب أن يحتوي عنصر المحتوى على معرّف نصي." });
+    if (!id) return response.status(400).json({ error: "ظٹط¬ط¨ ط£ظ† ظٹط­طھظˆظٹ ط¹ظ†طµط± ط§ظ„ظ…ط­طھظˆظ‰ ط¹ظ„ظ‰ ظ…ط¹ط±ظ‘ظپ ظ†طµظٹ." });
     try {
         const result = updateCollection(request.params.collection, (items) => {
             if (items.some((entry) => entry && entry.id === id)) return null;
             const created = { ...item, id };
             return { items: [...items, created], item: created };
         });
-        if (!result) return response.status(409).json({ error: "يوجد عنصر بهذا المعرّف مسبقاً." });
+        if (!result) return response.status(409).json({ error: "ظٹظˆط¬ط¯ ط¹ظ†طµط± ط¨ظ‡ط°ط§ ط§ظ„ظ…ط¹ط±ظ‘ظپ ظ…ط³ط¨ظ‚ط§ظ‹." });
         response.status(201).json(result);
     } catch (error) {
         next(error);
@@ -329,7 +329,7 @@ app.post("/api/content/:collection", sameOrigin, requireSession, validCollection
 app.put("/api/content/:collection/:id", sameOrigin, requireSession, validCollection, (request, response, next) => {
     const item = request.body;
     if (!item || typeof item !== "object" || Array.isArray(item)) {
-        return response.status(400).json({ error: "يجب إرسال عنصر المحتوى ككائن JSON." });
+        return response.status(400).json({ error: "ظٹط¬ط¨ ط¥ط±ط³ط§ظ„ ط¹ظ†طµط± ط§ظ„ظ…ط­طھظˆظ‰ ظƒظƒط§ط¦ظ† JSON." });
     }
     try {
         const result = updateCollection(request.params.collection, (items) => {
@@ -340,7 +340,7 @@ app.put("/api/content/:collection/:id", sameOrigin, requireSession, validCollect
             updatedItems[index] = updated;
             return { items: updatedItems, item: updated };
         });
-        if (!result) return response.status(404).json({ error: "عنصر المحتوى غير موجود." });
+        if (!result) return response.status(404).json({ error: "ط¹ظ†طµط± ط§ظ„ظ…ط­طھظˆظ‰ ط؛ظٹط± ظ…ظˆط¬ظˆط¯." });
         response.json(result);
     } catch (error) {
         next(error);
@@ -354,7 +354,7 @@ app.delete("/api/content/:collection/:id", sameOrigin, requireSession, validColl
             if (updatedItems.length === items.length) return null;
             return { items: updatedItems, item: { id: request.params.id } };
         });
-        if (!result) return response.status(404).json({ error: "عنصر المحتوى غير موجود." });
+        if (!result) return response.status(404).json({ error: "ط¹ظ†طµط± ط§ظ„ظ…ط­طھظˆظ‰ ط؛ظٹط± ظ…ظˆط¬ظˆط¯." });
         response.json({ deleted: true, updatedAt: result.updatedAt });
     } catch (error) {
         next(error);
@@ -363,14 +363,15 @@ app.delete("/api/content/:collection/:id", sameOrigin, requireSession, validColl
 
 app.all("/api/draft", (_request, response) => {
     response.set("Allow", "GET, POST, PUT");
-    response.status(405).json({ error: "الطريقة غير مدعومة لهذا المسار. استخدم GET أو POST أو PUT." });
+    response.status(405).json({ error: "ط§ظ„ط·ط±ظٹظ‚ط© ط؛ظٹط± ظ…ط¯ط¹ظˆظ…ط© ظ„ظ‡ط°ط§ ط§ظ„ظ…ط³ط§ط±. ط§ط³طھط®ط¯ظ… GET ط£ظˆ POST ط£ظˆ PUT." });
 });
 app.use("/api", (_request, response) => {
-    response.status(404).json({ error: "مسار API غير موجود." });
+    response.status(404).json({ error: "ظ…ط³ط§ط± API ط؛ظٹط± ظ…ظˆط¬ظˆط¯." });
 });
 
 app.get(["/", "/index.html"], (_request, response) => response.sendFile(path.join(root, "index.html")));
-app.get("/dashboard.html", (_request, response) => response.sendFile(path.join(root, "dashboard.html")));
+app.get("/dashboard.html", (_request, response) => response.redirect("/dashboard/dashboard.html"));
+app.use("/dashboard", express.static(path.join(root, "dashboard"), { dotfiles: "deny", fallthrough: false }));
 app.use("/css", express.static(path.join(root, "css"), { dotfiles: "deny", fallthrough: false }));
 app.use("/js", express.static(path.join(root, "js"), { dotfiles: "deny", fallthrough: false }));
 app.use("/images", express.static(path.join(root, "images"), { dotfiles: "deny", fallthrough: false }));
@@ -381,12 +382,12 @@ app.use((error, request, response, _next) => {
     if (status >= 500) console.error("Request failed.", error);
     if (response.headersSent) return;
     const message = status === 400
-        ? "الطلب غير صالح. تحقق من تنسيق JSON."
+        ? "ط§ظ„ط·ظ„ط¨ ط؛ظٹط± طµط§ظ„ط­. طھط­ظ‚ظ‚ ظ…ظ† طھظ†ط³ظٹظ‚ JSON."
         : status === 413
-            ? "حجم الطلب أكبر من الحد المسموح."
+            ? "ط­ط¬ظ… ط§ظ„ط·ظ„ط¨ ط£ظƒط¨ط± ظ…ظ† ط§ظ„ط­ط¯ ط§ظ„ظ…ط³ظ…ظˆط­."
             : status >= 500
-                ? "حدث خطأ داخلي. راجع سجل الخادم."
-                : "تعذّر تنفيذ الطلب.";
+                ? "ط­ط¯ط« ط®ط·ط£ ط¯ط§ط®ظ„ظٹ. ط±ط§ط¬ط¹ ط³ط¬ظ„ ط§ظ„ط®ط§ط¯ظ…."
+                : "طھط¹ط°ظ‘ط± طھظ†ظپظٹط° ط§ظ„ط·ظ„ط¨.";
     response.status(status).json({ error: message });
 });
 
