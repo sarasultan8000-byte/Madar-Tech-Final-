@@ -1,6 +1,6 @@
 ﻿import assert from "node:assert/strict";
 import test from "node:test";
-import { loadDraft, saveDraft } from "../dashboard/js/draft-adapter.js";
+import { loadDraft, saveDraft } from "../../../dashboard/js/draft-adapter.js";
 
 function installBrowserStorage(values) {
     const originalLocalStorageDescriptor = Object.getOwnPropertyDescriptor(globalThis, "localStorage");

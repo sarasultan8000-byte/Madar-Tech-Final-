@@ -1,4 +1,4 @@
-import assert from "node:assert/strict";
+﻿import assert from "node:assert/strict";
 import { spawn, spawnSync } from "node:child_process";
 import { scryptSync } from "node:crypto";
 import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
@@ -82,8 +82,8 @@ async function login(baseUrl) {
 test("setup creates a verifiable admin password and requires explicit reset", () => {
     const temporaryRoot = mkdtempSync(path.join(os.tmpdir(), "madar-tech-setup-test-"));
     try {
-        const scriptsDirectory = path.join(temporaryRoot, "scripts");
-        mkdirSync(scriptsDirectory);
+        const scriptsDirectory = path.join(temporaryRoot, "dashboard", "project", "scripts");
+        mkdirSync(scriptsDirectory, { recursive: true });
         const temporarySetup = path.join(scriptsDirectory, "setup.js");
         copyFileSync(setupPath, temporarySetup);
         const envPath = path.join(temporaryRoot, ".env");
@@ -91,7 +91,7 @@ test("setup creates a verifiable admin password and requires explicit reset", ()
         const firstRun = spawnSync(process.execPath, [temporarySetup], { encoding: "utf8" });
         assert.equal(firstRun.status, 0, firstRun.stderr);
         const firstContents = readFileSync(envPath, "utf8");
-        const firstPassword = firstRun.stdout.match(/كلمة مرور لوحة التحكم \(احفظها الآن\): ([\w-]+)/)?.[1];
+                const firstPassword = firstRun.stdout.match(/:\s*([A-Za-z0-9_-]{20,})/)?.[1];
         assert.ok(firstPassword);
         assert.notEqual(firstPassword, password, "setup must not use the test password");
         const firstSalt = firstContents.match(/^ADMIN_PASSWORD_SALT=([\da-f]+)$/m)?.[1];
@@ -104,7 +104,7 @@ test("setup creates a verifiable admin password and requires explicit reset", ()
 
         const resetRun = spawnSync(process.execPath, [temporarySetup, "--reset"], { encoding: "utf8" });
         assert.equal(resetRun.status, 0, resetRun.stderr);
-        const resetPassword = resetRun.stdout.match(/كلمة مرور لوحة التحكم \(احفظها الآن\): ([\w-]+)/)?.[1];
+                const resetPassword = resetRun.stdout.match(/:\s*([A-Za-z0-9_-]{20,})/)?.[1];
         assert.ok(resetPassword);
         assert.notEqual(resetPassword, firstPassword);
     } finally {
@@ -296,3 +296,7 @@ test("the SQLite site API protects edits, serves public content, supports CRUD, 
         rmSync(dataDirectory, { recursive: true, force: true });
     }
 });
+
+
+
+

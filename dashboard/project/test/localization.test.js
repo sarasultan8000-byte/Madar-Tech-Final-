@@ -1,7 +1,7 @@
 ﻿import assert from "node:assert/strict";
 import test from "node:test";
-import { createEmptyDraft } from "../dashboard/js/draft-adapter.js";
-import { renderPreview } from "../dashboard/js/preview-renderer.js";
+import { createEmptyDraft } from "../../../dashboard/js/draft-adapter.js";
+import { renderPreview } from "../../../dashboard/js/preview-renderer.js";
 
 test("the starter draft includes English content for its preview", () => {
     const preview = renderPreview(createEmptyDraft(), "en");

@@ -3,7 +3,7 @@ import { existsSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
-const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
+const root = path.resolve(path.dirname(path.dirname(fileURLToPath(import.meta.url))), "../..");
 const envPath = path.join(root, ".env");
 const resetting = process.argv.includes("--reset");
 

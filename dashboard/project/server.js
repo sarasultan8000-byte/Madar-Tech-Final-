@@ -1,4 +1,4 @@
-﻿import "dotenv/config";
+import dotenv from "dotenv";
 import express from "express";
 import Database from "better-sqlite3";
 import { randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
@@ -6,7 +6,8 @@ import { existsSync, mkdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
-const root = path.dirname(fileURLToPath(import.meta.url));
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
+dotenv.config({ path: path.join(root, ".env") });
 const host = process.env.HOST || "0.0.0.0";
 const port = Number(process.env.PORT) || 3000;
 const maxDraftBytes = 2 * 1024 * 1024;
@@ -371,6 +372,7 @@ app.use("/api", (_request, response) => {
 
 app.get(["/", "/index.html"], (_request, response) => response.sendFile(path.join(root, "index.html")));
 app.get("/dashboard.html", (_request, response) => response.redirect("/dashboard/dashboard.html"));
+app.use("/assets", express.static(path.join(root, "assets"), { dotfiles: "deny", fallthrough: false }));
 app.use("/dashboard", express.static(path.join(root, "dashboard"), { dotfiles: "deny", fallthrough: false }));
 app.use("/css", express.static(path.join(root, "assets", "css"), { dotfiles: "deny", fallthrough: false }));
 app.use("/js", express.static(path.join(root, "assets", "js"), { dotfiles: "deny", fallthrough: false }));
