@@ -372,9 +372,9 @@ app.use("/api", (_request, response) => {
 app.get(["/", "/index.html"], (_request, response) => response.sendFile(path.join(root, "index.html")));
 app.get("/dashboard.html", (_request, response) => response.redirect("/dashboard/dashboard.html"));
 app.use("/dashboard", express.static(path.join(root, "dashboard"), { dotfiles: "deny", fallthrough: false }));
-app.use("/css", express.static(path.join(root, "css"), { dotfiles: "deny", fallthrough: false }));
-app.use("/js", express.static(path.join(root, "js"), { dotfiles: "deny", fallthrough: false }));
-app.use("/images", express.static(path.join(root, "images"), { dotfiles: "deny", fallthrough: false }));
+app.use("/css", express.static(path.join(root, "assets", "css"), { dotfiles: "deny", fallthrough: false }));
+app.use("/js", express.static(path.join(root, "assets", "js"), { dotfiles: "deny", fallthrough: false }));
+app.use("/images", express.static(path.join(root, "assets", "images"), { dotfiles: "deny", fallthrough: false }));
 app.use((_request, response) => response.status(404).send("Not found."));
 
 app.use((error, request, response, _next) => {
@@ -414,3 +414,4 @@ function shutdown() {
 }
 process.on("SIGINT", shutdown);
 process.on("SIGTERM", shutdown);
+
